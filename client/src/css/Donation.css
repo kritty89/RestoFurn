@@ -1,0 +1,26 @@
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .form-box {
+    margin-top: 40px;
+  }
+  
+  .form-title {
+    margin-bottom: 20px;
+  }
+  
+  .form-input {
+    margin-bottom: 20px;
+  }
+  
+  .form-button {
+    margin-top: 20px;
+  }
+  
+  .upload-button {
+    display: block;
+    width: 100%;
+    margin-bottom: 20px;
+  }

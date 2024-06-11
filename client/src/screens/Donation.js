@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { Container, TextField, Button, Typography, Box, MenuItem } from '@mui/material';
 import { DatePicker, TimePicker } from '@mui/lab';
 import { furnitureTypes } from '../data/FurnitureTypes';
+import '../css/Donation.css';
 
-const DonationRequestForm = () => {
+const Donation = () => {
   const [formData, setFormData] = useState({
     name: '',
     address: '',
@@ -13,7 +14,7 @@ const DonationRequestForm = () => {
     description: '',
     furnitureName: '',
     furnitureType: '',
-    images: null
+    images: null,
   });
 
   const handleChange = (e) => {
@@ -40,9 +41,9 @@ const DonationRequestForm = () => {
   };
 
   return (
-    <Container maxWidth="sm">
-      <Box mt={5}>
-        <Typography variant="h4" gutterBottom>
+    <Container className="container">
+      <Box className="form-box">
+        <Typography variant="h4" gutterBottom className="form-title">
           Donation Request Form
         </Typography>
         <form onSubmit={handleSubmit}>
@@ -52,9 +53,9 @@ const DonationRequestForm = () => {
             name="name"
             value={formData.name}
             onChange={handleChange}
-            margin="normal"
             variant="outlined"
             required
+            className="form-input"
           />
           <TextField
             fullWidth
@@ -62,9 +63,9 @@ const DonationRequestForm = () => {
             name="address"
             value={formData.address}
             onChange={handleChange}
-            margin="normal"
             variant="outlined"
             required
+            className="form-input"
           />
           <TextField
             fullWidth
@@ -72,21 +73,21 @@ const DonationRequestForm = () => {
             name="contact"
             value={formData.contact}
             onChange={handleChange}
-            margin="normal"
             variant="outlined"
             required
+            className="form-input"
           />
           <DatePicker
             label="Pickup Date"
             value={formData.pickupDate}
             onChange={handleDateChange}
-            renderInput={(params) => <TextField {...params} fullWidth margin="normal" variant="outlined" required />}
+            renderInput={(params) => <TextField {...params} fullWidth variant="outlined" required className="form-input" />}
           />
           <TimePicker
             label="Time Slot"
             value={formData.timeSlot}
             onChange={handleTimeChange}
-            renderInput={(params) => <TextField {...params} fullWidth margin="normal" variant="outlined" required />}
+            renderInput={(params) => <TextField {...params} fullWidth variant="outlined" required className="form-input" />}
           />
           <TextField
             fullWidth
@@ -94,9 +95,9 @@ const DonationRequestForm = () => {
             name="furnitureName"
             value={formData.furnitureName}
             onChange={handleChange}
-            margin="normal"
             variant="outlined"
             required
+            className="form-input"
           />
           <TextField
             fullWidth
@@ -105,9 +106,9 @@ const DonationRequestForm = () => {
             name="furnitureType"
             value={formData.furnitureType}
             onChange={handleChange}
-            margin="normal"
             variant="outlined"
             required
+            className="form-input"
           >
             {furnitureTypes.map((type) => (
               <MenuItem key={type} value={type}>
@@ -121,17 +122,16 @@ const DonationRequestForm = () => {
             name="description"
             value={formData.description}
             onChange={handleChange}
-            margin="normal"
             variant="outlined"
             multiline
             rows={4}
             required
+            className="form-input"
           />
           <Button
             variant="contained"
             component="label"
-            fullWidth
-            margin="normal"
+            className="upload-button"
           >
             Upload Images
             <input
@@ -141,7 +141,7 @@ const DonationRequestForm = () => {
               onChange={handleFileChange}
             />
           </Button>
-          <Box mt={2}>
+          <Box className="form-button">
             <Button variant="contained" color="primary" type="submit" fullWidth>
               Submit
             </Button>
@@ -152,4 +152,4 @@ const DonationRequestForm = () => {
   );
 };
 
-export default DonationRequestForm;
+export default Donation;
