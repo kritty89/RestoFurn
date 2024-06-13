@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/static/css/main.8d9fc8b9.css",
-    "main.js": "/static/js/main.d446879e.js",
+    "main.css": "/static/css/main.411d5ba4.css",
+    "main.js": "/static/js/main.2142dc3e.js",
     "static/media/green_furniture.jpg": "/static/media/green_furniture.6702b26fe2b20aee2815.jpg",
     "index.html": "/index.html",
-    "main.8d9fc8b9.css.map": "/static/css/main.8d9fc8b9.css.map",
-    "main.d446879e.js.map": "/static/js/main.d446879e.js.map"
+    "main.411d5ba4.css.map": "/static/css/main.411d5ba4.css.map",
+    "main.2142dc3e.js.map": "/static/js/main.2142dc3e.js.map"
   },
   "entrypoints": [
-    "static/css/main.8d9fc8b9.css",
-    "static/js/main.d446879e.js"
+    "static/css/main.411d5ba4.css",
+    "static/js/main.2142dc3e.js"
   ]
 }

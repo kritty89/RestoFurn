@@ -61,14 +61,7 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
-					<excludes>
-						<exclude>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok</artifactId>
-						</exclude>
-					</excludes>
-				</configuration>
+				<version>${project.parent.version}</version>
 			</plugin>
 			<plugin>
 				<groupId>com.github.eirslett</groupId>
@@ -123,7 +116,7 @@
 							<outputDirectory>${project.basedir}/src/main/resources/static/</outputDirectory>
 							<resources>
 								<resource>
-									<directory>${project.basedir}/src/main/frontend/build/</directory>
+									<directory>${project.basedir}/src/main/client/build/</directory>
 									<includes>
 										<include>**/*</include>
 									</includes>
