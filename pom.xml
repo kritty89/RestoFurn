@@ -50,6 +50,10 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -105,22 +109,26 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>exec-maven-plugin</artifactId>
-				<version>1.6.0</version>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.2.0</version>
 				<executions>
 					<execution>
 						<id>copy-build-files</id>
 						<phase>prepare-package</phase>
 						<goals>
-							<goal>exec</goal>
+							<goal>copy-resources</goal>
 						</goals>
 						<configuration>
-							<executable>bash</executable>
-							<arguments>
-								<argument>-c</argument>
-								<argument>cp -r src/main/client/build/* src/main/resources/static/</argument>
-							</arguments>
+							<outputDirectory>${project.basedir}/src/main/resources/static/</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${project.basedir}/src/main/frontend/build/</directory>
+									<includes>
+										<include>**/*</include>
+									</includes>
+								</resource>
+							</resources>
 						</configuration>
 					</execution>
 				</executions>
