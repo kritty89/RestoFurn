@@ -1,0 +1,21 @@
+.login-container {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .login-title {
+    margin-bottom: 20px;
+  }
+  
+  .login-form {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  
+  .login-input {
+    margin-bottom: 20px;
+  }
+  
+  .login-button {
+    margin-top: 20px;
+  }

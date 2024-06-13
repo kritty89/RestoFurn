@@ -41,5 +41,13 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@babel/plugin-transform-private-property-in-object": "^7.24.7",
+    "gulp": "^5.0.0",
+    "gulp-cli": "^3.0.0"
+  },
+   "proxy": "http://localhost:8080"
+
 }

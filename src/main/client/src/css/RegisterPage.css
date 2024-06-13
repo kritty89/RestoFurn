@@ -1,0 +1,23 @@
+.register-container {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .register-title {
+    margin-bottom: 20px;
+  }
+  
+  .register-form {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  
+  .register-input {
+    margin-bottom: 20px;
+    background-color: white;
+  }
+  
+  .register-button {
+    margin-top: 20px;
+  }
+  
