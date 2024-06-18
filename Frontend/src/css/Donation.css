@@ -1,0 +1,34 @@
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .form-box {
+    margin-top: 40px;
+    margin-bottom: 20px;
+    background-color: white;
+  }
+  
+  .form-title {
+    margin-bottom: 20px;
+  }
+  
+  .form-input {
+    padding : 20px;
+    background-color: white;
+    margin: 30px;
+  }
+  
+  .form-button {
+    margin-top: 20px;
+  }
+  
+  .upload-button {
+    display: block;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .quote {
+    margin: 0 auto;
+  }

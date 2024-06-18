@@ -1,0 +1,52 @@
+.footer {
+    background-color: #333;
+    color: #fff;
+    padding: 20px 0;
+  }
+  
+  .footer-content {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  
+  .footer-section {
+    flex: 1;
+    margin: 10px;
+  }
+  
+  .footer-section h6 {
+    margin-bottom: 10px;
+  }
+  
+  .social-icons {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .footer a {
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  .footer a:hover {
+    text-decoration: underline;
+  }
+  
+  .footer .MuiTypography-body1 {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  .footer .MuiIconButton-root {
+    color: #fff;
+  }
+  
+  .footer .MuiIconButton-root:hover {
+    color: #aaa;
+  }
+  
+  .footer-copyright {
+    margin-top: 20px;
+  }

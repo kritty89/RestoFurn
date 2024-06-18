@@ -1,0 +1,10 @@
+h1{
+    font-size: 72px;
+    font-weight: bolder;
+    text-align: center;
+}
+
+.category{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }

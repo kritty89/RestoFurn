@@ -1,0 +1,29 @@
+.main{
+    background-color: #62B16E;
+}
+
+form TextField{
+background-color: white;
+}
+
+.cls-1{fill:#ffffff}
+
+/* .css-hyum1k-MuiToolbar-root{
+
+} */
+
+.nav{
+    background-color: #333;;
+}
+
+.app-bar {
+    background-color: #333;
+  }
+  
+  .navbar-title {
+    flex-grow: 1;
+  }
+  
+  .menu-icon {
+    margin-right: 8px;
+  }
