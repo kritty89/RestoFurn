@@ -3,6 +3,7 @@ import { Container, TextField, Button, Typography, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import '../css/App.css';
 import '../css/RegisterPage.css';
+import apiService from '../components/apiService';
 
 const RegisterPage = () => {
   const [formData, setFormData] = useState({ name: '', email: '', password: '' });
@@ -16,11 +17,7 @@ const RegisterPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('/api/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
+      const response = await apiService.donate(formData);
       if (response.ok) {
         navigate('/login');
       } else {

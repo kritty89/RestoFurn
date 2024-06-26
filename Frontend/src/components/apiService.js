@@ -32,6 +32,14 @@ const apiService = {
         throw error;
       }
     },
+    register: async (userData) => {
+      try {
+        const response = await axiosInstance.post('/register', userData);
+        return response.data;
+      } catch (error) {
+        throw error;
+      }
+    },
   };
   
   export default apiService;

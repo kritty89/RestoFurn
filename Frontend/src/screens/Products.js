@@ -2,8 +2,10 @@
 import React from 'react'
 import '../css/Products.css';
 import ImageSlideshow from '../components/ImageSlideshow';
+import ProductMenu from '../components/ProductMenu';
 
 
+<productMenu />
 const images1 = [
   { url: 'https://via.placeholder.com/800x400.png?text=Slideshow+1+Image+1', alt: 'Slideshow 1 Image 1' },
   { url: 'https://via.placeholder.com/800x400.png?text=Slideshow+1+Image+2', alt: 'Slideshow 1 Image 2' },
