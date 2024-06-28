@@ -5,8 +5,7 @@ const About = () => {
     <div><h2>About US</h2>
     <p>RestoFurn is a social enterprise retailer that accepts and resells donations of new and used furniture. All profits from their operations fund Habitat for Humanity, which builds homes
           for families in need of safe, decent, and affordable housing. Shopping at a Habitat ReStore supports local homebuilding 
-          projects and helps divert items from landfills. There are over 100 Habitat ReStores across Canada and more than 
-          1,000 worldwide</p>
+          projects and helps divert items from landfills.</p>
 
           <h5>Why consider sustainable furniture?</h5>
           <p>Furniture is often made from natural resources like wood — and when mass produced has devastating deforestation 

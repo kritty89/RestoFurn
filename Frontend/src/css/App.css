@@ -27,3 +27,11 @@ background-color: white;
   .menu-icon {
     margin-right: 8px;
   }
+
+  .products-navbar {
+    margin-top: 10px;
+  }
+  
+  .title {
+    flex-grow: 1;
+  }
