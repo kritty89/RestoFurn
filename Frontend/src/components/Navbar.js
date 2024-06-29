@@ -51,7 +51,7 @@ const handleClose = () => {
           </Menu>
           {location.pathname === '/productsHome' && (
           <Button color="inherit" component={Link} to="/cart">
-            <ShoppingCart style={{ marginRight: 8 }} /> Add to Cart
+            <ShoppingCart style={{ marginRight: 8 }} /> Cart
           </Button>
         )}
         </Box>
