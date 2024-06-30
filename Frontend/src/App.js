@@ -9,6 +9,8 @@ import Donation from './screens/Donation';
 import Login from './screens/Login';
 import Register from './screens/RegisterPage';
 import About from './screens/About';
+import Cart from './screens/Cart';
+import Checkout from './screens/Checkout';
 
 
 const App = () => {
@@ -24,6 +26,8 @@ const App = () => {
       <Route path="/register" element={<Register />} />
       <Route path="/about" element={<About />} />
       <Route path="/products" element={<Products />} />
+      <Route path="/Cart" element={<Cart/>} />
+      <Route path="/Checkout" element={<Checkout/>} />
       </Routes>
       <Footer />
     </Router>

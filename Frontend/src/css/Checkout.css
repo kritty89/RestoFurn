@@ -1,0 +1,54 @@
+.checkout {
+    width: 80%;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  form div {
+    margin-bottom: 15px;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  input[type="radio"] {
+    margin-right: 10px;
+  }
+  
+  .order-summary {
+    margin-top: 20px;
+  }
+  
+  .order-summary p {
+    font-weight: bold;
+  }
+  
+  button {
+    background-color: #f0c14b;
+    border: 1px solid #a88734;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    align-self: flex-start;
+  }
+  
+  button:hover {
+    background-color: #e2b33b;
+  }
