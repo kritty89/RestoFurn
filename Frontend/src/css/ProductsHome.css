@@ -1,0 +1,29 @@
+.product-image {
+    height: 300px;
+    width: 250px;
+}
+
+h1 {
+    font-size: 72px;
+    font-weight: bolder;
+    text-align: center;
+}
+
+.category {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.product-container {
+    text-align: center;
+    padding: 20px;
+}
+
+.sub-category {
+    text-align: center;
+    padding: 10px;
+}
+
+.category-card-media{
+    height: 300px;
+}

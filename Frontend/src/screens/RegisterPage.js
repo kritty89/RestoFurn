@@ -6,7 +6,7 @@ import '../css/RegisterPage.css';
 import apiService from '../components/apiService';
 
 const RegisterPage = () => {
-  const [formData, setFormData] = useState({ name: '', email: '', password: '' });
+  const [formData, setFormData] = useState({ fname: '', lname: '', email: '', password: '' });
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -37,9 +37,20 @@ const RegisterPage = () => {
         <form onSubmit={handleSubmit} className="register-form">
           <TextField
             fullWidth
-            label="Name"
-            name="name"
-            value={formData.name}
+            label="First Name"
+            name="firstname"
+            value={formData.fname}
+            onChange={handleChange}
+            margin="normal"
+            variant="outlined"
+            required
+            className="register-input"
+          />
+          <TextField
+            fullWidth
+            label="Last Name"
+            name="lastname"
+            value={formData.lname}
             onChange={handleChange}
             margin="normal"
             variant="outlined"

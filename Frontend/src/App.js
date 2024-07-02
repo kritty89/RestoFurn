@@ -21,13 +21,13 @@ const App = () => {
       <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/donation" element={<Donation />} />
-      <Route path="/productsHome" element={<ProductsHome />} />
+      <Route path="/productshome" element={<ProductsHome />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/about" element={<About />} />
       <Route path="/products" element={<Products />} />
-      <Route path="/Cart" element={<Cart/>} />
-      <Route path="/Checkout" element={<Checkout/>} />
+      <Route path="/cart" element={<Cart/>} />
+      <Route path="/checkout" element={<Checkout/>} />
       </Routes>
       <Footer />
     </Router>

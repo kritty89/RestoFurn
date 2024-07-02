@@ -29,7 +29,7 @@ const handleClose = () => {
           <Button color="inherit" component={Link} to="/" startIcon={<Home />}>
             Home
           </Button>
-          <Button color="inherit" component={Link} to="/productsHome" startIcon={<Store />}>
+          <Button color="inherit" component={Link} to="/productshome" startIcon={<Store />}>
             Products 
           </Button>
           <Button color="inherit" component={Link} to="/donation" startIcon={<Add />}>
@@ -49,7 +49,7 @@ const handleClose = () => {
             <PersonAdd style={{ marginRight: 8 }} /> Register
           </MenuItem>
           </Menu>
-          {location.pathname === '/productsHome' && (
+          {location.pathname === '/productshome' && (
           <Button color="inherit" component={Link} to="/cart">
             <ShoppingCart style={{ marginRight: 8 }} /> Cart
           </Button>

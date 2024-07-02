@@ -5,6 +5,7 @@ const Products = () => {
   return (
     <div>
 <ProductsNavbar />
+Work In progress
     </div>
   )
 }
