@@ -1,6 +1,7 @@
 .container {
     max-width: 600px;
     margin: 0 auto;
+    text-align: center;
   }
   
   .form-box {
@@ -31,4 +32,11 @@
 
   .quote {
     margin: 0 auto;
+  }
+
+  .donation-header{
+    background-color: #282c34;
+    padding: 1px;
+    color: white;
+    text-align: center;
   }

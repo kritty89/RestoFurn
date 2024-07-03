@@ -12,18 +12,14 @@ h1 {
 .category {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-gap: 15px;
 }
 
-.product-container {
+.products {
     text-align: center;
     padding: 20px;
 }
 
-.sub-category {
-    text-align: center;
-    padding: 10px;
-}
-
-.category-card-media{
+.category-card-media {
     height: 300px;
 }

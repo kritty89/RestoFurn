@@ -21,9 +21,9 @@ function Cart() {
 
   return (
     <div className="cart">
-      <header className="cart-header">
+      <div className="cart-header">
         <h2>Shopping Cart</h2>
-      </header>
+      </div>
       <div className="cart-container">
         <div className="cart-items">
           {cart.map((item, index) => (

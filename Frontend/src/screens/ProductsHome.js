@@ -24,6 +24,7 @@ function ProductsHome() {
   return (
     <div className='product-container'>
       <ProductsNavbar />
+      <div className='products'>
       <h2>Shop by Price</h2>
       <div className='category'>
         <Card>
@@ -286,6 +287,8 @@ function ProductsHome() {
             </CardContent>
           </CardActionArea>
         </Card>
+
+        </div>
 
       </div>
     </div>

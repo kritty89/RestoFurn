@@ -53,7 +53,7 @@ function Footer() {
             </Link>
           </div>
         </div>
-        <Typography variant="body2" color="textSecondary" align="center" className="footer-copyright">
+        <Typography variant="body2" color="white" align="center" className="footer-copyright">
           © {new Date().getFullYear()} RestoFurn. All rights reserved.
         </Typography>
       </Container>
