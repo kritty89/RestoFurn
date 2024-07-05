@@ -1,13 +1,46 @@
-import React from 'react'
-import ProductsNavbar from '../components/ProductsNavbar'
+import React, { useState, useEffect } from 'react';
+import apiService from '../components/apiService';
+import { useLocation } from 'react-router-dom';
+import ProductsNavbar from '../components/ProductsNavbar';
+import ProductCard from '../components/ProductCard';
+
+const useQuery = () => {
+  return new URLSearchParams(useLocation().search);
+};
 
 const Products = () => {
-  return (
-    <div>
-<ProductsNavbar />
-Work In progress
-    </div>
-  )
-}
+  const [products, setProducts] = useState([]);
+  const query = useQuery();
 
-export default Products
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const filter = {
+        material: query.get('material'),
+        minPrice: query.get('minPrice'),
+        maxPrice: query.get('maxPrice'),
+        furnitureType: query.get('furnitureType'),
+      };
+      let response;
+      if (filter.material || filter.minPrice || filter.maxPrice || filter.furnitureType) {
+        response = await apiService.fetchFilteredProducts(filter);
+      } else {
+        response = await apiService.fetchProducts();
+      }
+      setProducts(response.data);
+    };
+    fetchProducts();
+  }, [query]);
+
+  return (
+    <div className="products-page">
+      <ProductsNavbar />
+      <div className="product-list">
+        {products.map((product) => (
+          <ProductCard key={product.id} product={product} />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default Products;

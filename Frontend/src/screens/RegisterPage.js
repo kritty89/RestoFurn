@@ -24,7 +24,7 @@ const RegisterPage = () => {
     }
 
     try {
-      const response = await apiService.donate({
+      const response = await apiService.register({
         firstName: formData.firstName,
         lastName: formData.lastName,
         email: formData.email,

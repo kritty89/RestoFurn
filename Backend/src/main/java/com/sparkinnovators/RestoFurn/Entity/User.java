@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table (name="users")
+@Table (name="user")
 public class User {
 
     @Id
@@ -20,8 +20,8 @@ public class User {
     private String firstName;
     @Column(name = "lastName", nullable = false)
     private String lastName;
-    @Column(name = "emailId", nullable = false, unique = true)
-    private String emailId;
+    @Column(name = "email", nullable = false, unique = true)
+    private String email;
     @Column(name = "password", nullable = false)
     private String password;
 }

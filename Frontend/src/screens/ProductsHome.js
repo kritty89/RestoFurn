@@ -2,8 +2,8 @@ import React from 'react'
 import '../css/ProductsHome.css';
 import { Link } from 'react-router-dom';
 import { Card, CardActionArea, CardMedia, CardContent, Typography } from '@mui/material';
-
 import ProductsNavbar from '../components/ProductsNavbar';
+
 import Image1 from '../assets/product_category/wooden_chair.jpg';
 import Image2 from '../assets/product_category/table_chair2.jpg';
 import Image3 from '../assets/product_category/office_desk2.jpg';
@@ -18,7 +18,7 @@ import Image11 from '../assets/product_category/steel_chair2.jpg';
 import Image12 from '../assets/product_category/bed1.jpg';
 import Image13 from '../assets/product_category/office_desk1.jpg';
 import Image14 from '../assets/product_category/dressing_table.jpg';
-import Image15 from '../assets/product_category/steel_chair2.jpg';
+import Image15 from '../assets/product_category/crib.jpg';
 
 function ProductsHome() {
   return (
@@ -34,11 +34,11 @@ function ProductsHome() {
               alt="furniture"
               className="category-card-media"
               image={Image1}
-              title="Under 25$"
+              title="Under 50$"
             />
             <CardContent>
               <Typography gutterBottom variant="h6" component="div">
-                Under 25$
+                Under $50
               </Typography>
             </CardContent>
           </CardActionArea>
@@ -55,7 +55,7 @@ function ProductsHome() {
             />
             <CardContent>
               <Typography gutterBottom variant="h6" component="div">
-                Under 50$
+                $50 - $75
               </Typography>
             </CardContent>
           </CardActionArea>
@@ -72,7 +72,7 @@ function ProductsHome() {
             />
             <CardContent>
               <Typography gutterBottom variant="h6" component="div">
-                Under 75$
+                $75 - $100
               </Typography>
             </CardContent>
           </CardActionArea>
@@ -89,7 +89,7 @@ function ProductsHome() {
             />
             <CardContent>
               <Typography gutterBottom variant="h6" component="div">
-                Under 100$
+                $100 & Above
               </Typography>
             </CardContent>
           </CardActionArea>

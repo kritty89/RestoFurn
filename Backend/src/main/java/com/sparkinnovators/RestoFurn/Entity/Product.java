@@ -14,18 +14,20 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "name")
-    private String name;
-    @Column(name = "type")
-    private String type;
+    @Column(name = "furnitureName")
+    private String furnitureName;
+    @Column(name = "furnitureType")
+    private String furnitureType;
     @Column(name = "material")
     private String material;
     @Column(name = "price")
     private Double price;
-    @Column(name = "status")
-    private String status;
+    @Column(name = "furnitureStatus")
+    private String furnitureStatus;
     @Column(name = "inStock")
-    private Date inStock;
+    private String inStock;
     @Column(name = "coverImage")
-    private Date coverImage;
+    private String coverImage;
+    @Column(name = "description")
+    private String description;
 }

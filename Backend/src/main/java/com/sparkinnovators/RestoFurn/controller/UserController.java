@@ -53,11 +53,11 @@ public class UserController {
         if(null != userRegistration){
             System.out.println("userRegistration :: " + userRegistration.toString());
             User userEntity = new User();
-            userEntity.setFirstName(userRegistration.getFName());
-            userEntity.setLastName(userRegistration.getLName());
-            userEntity.setEmailId(userRegistration.getEmail());
+            userEntity.setFirstName(userRegistration.getFirstName());
+            userEntity.setLastName(userRegistration.getLastName());
+            userEntity.setEmail(userRegistration.getEmail());
             userEntity.setPassword(userRegistration.getPassword());
-            userRepository.save(userEntity);
+            userRepository.save(userEntity); 
         }else{
             System.out.println("Registration not success " );
         }

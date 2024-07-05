@@ -6,20 +6,18 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserRegistration {
-    private String fName;
-    private String lName;
+    private String firstName;
+    private String lastName;
     private String email;
     private String password;
-    private String cpassword;
 
     @Override
     public String toString() {
         return "UserRegistration{" +
-                "fName='" + fName + '\'' +
-                ", lName='" + lName + '\'' +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
                 ", email=" + email +
                 ", password=" + password +
-                ", cpassword='" + cpassword + '\'' +
                 '}';
     }
 }

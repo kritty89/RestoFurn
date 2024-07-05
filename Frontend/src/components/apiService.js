@@ -16,9 +16,17 @@ const apiService = {
         throw error;
       }
     },
-    fetchData: async () => {
+    fetchProducts: async () => {
       try {
-        const response = await axiosInstance.get('/data');
+        const response = await axiosInstance.get('/products');
+        return response.data;
+      } catch (error) {
+        throw error;
+      }
+    },
+    fetchFilteredProducts: async (filter) => {
+      try {
+        const response = await axiosInstance.get('/filteredproducts', filter);
         return response.data;
       } catch (error) {
         throw error;
