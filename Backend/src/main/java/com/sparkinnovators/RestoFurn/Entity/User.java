@@ -6,7 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
+@Getter
+@Setter
 @Entity
 @Table (name="users")
 public class User {
@@ -21,4 +22,6 @@ public class User {
     private String lastName;
     @Column(name = "emailId", nullable = false, unique = true)
     private String emailId;
+    @Column(name = "password", nullable = false)
+    private String password;
 }

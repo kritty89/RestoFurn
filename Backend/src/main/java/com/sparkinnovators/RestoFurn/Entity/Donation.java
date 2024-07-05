@@ -8,6 +8,8 @@ import lombok.Setter;
 
 import java.util.Date;
 
+@Setter
+@Getter
 @Entity
 @Table (name="donation")
 public class Donation {
@@ -29,69 +31,5 @@ public class Donation {
     private Date pickupDate;
     @Column(name = "pickupTime")
     private Date pickupTate;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public Integer getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(Integer phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public Integer getFurnitureCount() {
-        return furnitureCount;
-    }
-
-    public void setFurnitureCount(Integer furnitureCount) {
-        this.furnitureCount = furnitureCount;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Date getPickupDate() {
-        return pickupDate;
-    }
-
-    public void setPickupDate(Date pickupDate) {
-        this.pickupDate = pickupDate;
-    }
-
-    public Date getPickupTate() {
-        return pickupTate;
-    }
-
-    public void setPickupTate(Date pickupTate) {
-        this.pickupTate = pickupTate;
-    }
 }
 

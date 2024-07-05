@@ -1,7 +1,12 @@
 package com.sparkinnovators.RestoFurn.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.Date;
 
+@Setter
+@Getter
 public class DonationRequest {
     private String name;
     private String address;
@@ -10,46 +15,6 @@ public class DonationRequest {
     private String description;
     // private Date pickupDate;
     //private Date pickupTate;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public Integer getContact() {
-        return contact;
-    }
-
-    public void setContact(Integer contact) {
-        this.contact = contact;
-    }
-
-    public Integer getFurnitureCount() {
-        return furnitureCount;
-    }
-
-    public void setFurnitureCount(Integer furnitureCount) {
-        this.furnitureCount = furnitureCount;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 
     @Override
     public String toString() {

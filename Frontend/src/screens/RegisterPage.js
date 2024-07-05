@@ -6,8 +6,9 @@ import '../css/RegisterPage.css';
 import apiService from '../components/apiService';
 
 const RegisterPage = () => {
-  const [formData, setFormData] = useState({ fname: '', lname: '', email: '', password: '' });
+  const [formData, setFormData] = useState({ firstName: '', lastName: '', email: '', password: '', confirmPassword: '', });
   const navigate = useNavigate();
+  const [error, setError] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -16,15 +17,24 @@ const RegisterPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+
     try {
-      const response = await apiService.donate(formData);
-      if (response.ok) {
-        navigate('/login');
-      } else {
-        console.error('Registration failed');
-      }
+      const response = await apiService.donate({
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        password: formData.password,
+      });
+      console.log(response.data);
+      navigate('/login');
     } catch (error) {
-      console.error('Error:', error);
+      console.error(error);
+      setError('Registration failed. Please try again.');
     }
   };
 
@@ -34,52 +44,62 @@ const RegisterPage = () => {
         <Typography variant="h4" gutterBottom className="register-title">
           Register
         </Typography>
+        {error && <Typography color="error">{error}</Typography>}
         <form onSubmit={handleSubmit} className="register-form">
-          <TextField
+        <TextField
+            variant="outlined"
+            required
             fullWidth
+            name="firstName"
             label="First Name"
-            name="firstname"
-            value={formData.fname}
+            type="text"
+            id="firstName"
+            value={formData.firstName}
             onChange={handleChange}
-            margin="normal"
-            variant="outlined"
-            required
-            className="register-input"
           />
           <TextField
+            variant="outlined"
+            required
             fullWidth
+            name="lastName"
             label="Last Name"
-            name="lastname"
-            value={formData.lname}
+            type="text"
+            id="lastName"
+            value={formData.lastName}
             onChange={handleChange}
-            margin="normal"
-            variant="outlined"
-            required
-            className="register-input"
           />
           <TextField
+            variant="outlined"
+            required
             fullWidth
-            label="Email"
             name="email"
+            label="Email address"
             type="email"
+            id="email"
             value={formData.email}
             onChange={handleChange}
-            margin="normal"
-            variant="outlined"
-            required
-            className="register-input"
           />
           <TextField
-            fullWidth
-            label="Password"
-            name="password"
-            type="password"
-            value={formData.password}
-            onChange={handleChange}
-            margin="normal"
             variant="outlined"
             required
-            className="register-input"
+            fullWidth
+            name="password"
+            label="Password"
+            type="password"
+            id="password"
+            value={formData.password}
+            onChange={handleChange}
+          />
+          <TextField
+            variant="outlined"
+            required
+            fullWidth
+            name="confirmPassword"
+            label="Confirm Password"
+            type="password"
+            id="confirmPassword"
+            value={formData.confirmPassword}
+            onChange={handleChange}
           />
           <Box mt={2}>
             <Button variant="contained" color="primary" type="submit" fullWidth className="register-button">

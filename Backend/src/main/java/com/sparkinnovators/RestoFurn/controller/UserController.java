@@ -1,8 +1,11 @@
 package com.sparkinnovators.RestoFurn.controller;
 
 import com.sparkinnovators.RestoFurn.Entity.Donation;
+import com.sparkinnovators.RestoFurn.Entity.User;
 import com.sparkinnovators.RestoFurn.model.DonationRequest;
+import com.sparkinnovators.RestoFurn.model.UserRegistration;
 import com.sparkinnovators.RestoFurn.repository.DonationRepository;
+import com.sparkinnovators.RestoFurn.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,10 +19,12 @@ import java.util.Date;
 public class UserController {
 
     private final DonationRepository donationRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public UserController(final DonationRepository donationRepository){
+    public UserController(final DonationRepository donationRepository, UserRepository userRepository){
         this.donationRepository=donationRepository;
+        this.userRepository = userRepository;
     }
 
     @PostMapping(value="/donation")
@@ -38,6 +43,23 @@ public class UserController {
             donationRepository.save(donationEntity);
         }else{
             System.out.println("donationRequest not success " );
+        }
+        return ResponseEntity.ok("OK");
+
+    }
+
+    @PostMapping(value="/register")
+    public ResponseEntity<String> processRegisterDetail(@RequestBody final UserRegistration userRegistration){
+        if(null != userRegistration){
+            System.out.println("userRegistration :: " + userRegistration.toString());
+            User userEntity = new User();
+            userEntity.setFirstName(userRegistration.getFName());
+            userEntity.setLastName(userRegistration.getLName());
+            userEntity.setEmailId(userRegistration.getEmail());
+            userEntity.setPassword(userRegistration.getPassword());
+            userRepository.save(userEntity);
+        }else{
+            System.out.println("Registration not success " );
         }
         return ResponseEntity.ok("OK");
 

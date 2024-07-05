@@ -68,6 +68,7 @@ const Donation = () => {
               onChange={handleChange}
               variant="outlined"
               required
+              type="text"
               className="form-input"
             />
             <TextField
@@ -78,6 +79,7 @@ const Donation = () => {
               onChange={handleChange}
               variant="outlined"
               required
+              type="text"
               className="form-input"
             />
             <TextField
@@ -88,6 +90,7 @@ const Donation = () => {
               onChange={handleChange}
               variant="outlined"
               required
+              type="tel"
               className="form-input"
             />
             <TextField
