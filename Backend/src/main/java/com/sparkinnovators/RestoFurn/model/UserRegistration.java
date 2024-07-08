@@ -16,7 +16,7 @@ public class UserRegistration {
         return "UserRegistration{" +
                 "firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", email=" + email +
+                ", email=" + email + '\'' +
                 ", password=" + password +
                 '}';
     }

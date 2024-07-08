@@ -18,7 +18,7 @@ const apiService = {
     },
     fetchProducts: async () => {
       try {
-        const response = await axiosInstance.get('/products');
+        const response = await axiosInstance.post('/products');
         return response.data;
       } catch (error) {
         throw error;
@@ -26,7 +26,7 @@ const apiService = {
     },
     fetchFilteredProducts: async (filter) => {
       try {
-        const response = await axiosInstance.get('/filteredproducts', filter);
+        const response = await axiosInstance.post('/filteredproducts', filter);
         return response.data;
       } catch (error) {
         throw error;

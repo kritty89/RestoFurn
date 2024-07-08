@@ -2,27 +2,54 @@ import React from 'react';
 import { AppBar, Toolbar, Typography, Button, Menu, MenuItem, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
-const ProductsNavbar = ({ onFilter }) => {
-  const [anchorElMaterial, setAnchorElMaterial] = React.useState(null);
-  const [anchorElPrice, setAnchorElPrice] = React.useState(null);
-  const [anchorElFurnitureType, setAnchorElFurnitureType] = React.useState(null);
-
+const ProductsNavbar = () => {
+  const [anchorEl, setAnchorEl] = React.useState({ material: null, price: null, furnitureType: null });
   const navigate = useNavigate();
 
-  const handleMenuOpen = (event, setAnchorEl) => {
-    setAnchorEl(event.currentTarget);
+  const handleMenuOpen = (event, menuType) => {
+    setAnchorEl((prev) => ({ ...prev, [menuType]: event.currentTarget }));
   };
 
-  const handleMenuClose = (setAnchorEl) => {
-    setAnchorEl(null);
+  const handleMenuClose = (menuType) => {
+    setAnchorEl((prev) => ({ ...prev, [menuType]: null }));
   };
 
   const handleFilter = (filter) => {
     const queryParams = new URLSearchParams(filter).toString();
     navigate(`/products?${queryParams}`);
-    handleMenuClose(setAnchorElMaterial);
-    handleMenuClose(setAnchorElPrice);
-    handleMenuClose(setAnchorElFurnitureType);
+    setAnchorEl({ material: null, price: null, furnitureType: null });
+  };
+
+  const menuItems = {
+    price: [
+      { label: 'Under $50', filter: { minPrice: 0, maxPrice: 50 } },
+      { label: '$50 - $75', filter: { minPrice: 50, maxPrice: 75 } },
+      { label: '$75 - $100', filter: { minPrice: 75, maxPrice: 100 } },
+      { label: '$100 & Above', filter: { minPrice: 100 } },
+    ],
+    material: [
+      { label: 'Wood', filter: { material: 'wood' } },
+      { label: 'Steel', filter: { material: 'steel' } },
+      { label: 'Plastic', filter: { material: 'plastic' } },
+      { label: 'Fabric', filter: { material: 'fabric' } },
+    ],
+    furnitureType: [
+      { label: 'Table', filter: { furnitureType: 'table' } },
+      { label: 'Sofa', filter: { furnitureType: 'sofa' } },
+      { label: 'Chair', filter: { furnitureType: 'chair' } },
+      { label: 'Bed', filter: { furnitureType: 'bed' } },
+      { label: 'Desk', filter: { furnitureType: 'desk' } },
+      { label: 'Dressing Table', filter: { furnitureType: 'dressing table' } },
+      { label: 'Crib', filter: { furnitureType: 'crib' } },
+    ],
+  };
+
+  const renderMenuItems = (items, menuType) => {
+    return items.map((item) => (
+      <MenuItem key={item.label} onClick={() => handleFilter(item.filter)}>
+        {item.label}
+      </MenuItem>
+    ));
   };
 
   return (
@@ -32,46 +59,25 @@ const ProductsNavbar = ({ onFilter }) => {
           Shop By
         </Typography>
         <Box display="flex">
-        <Button color="inherit" onClick={(e) => handleMenuOpen(e, setAnchorElPrice)}>All Products</Button>
-        <Button color="inherit" onClick={(e) => handleMenuOpen(e, setAnchorElPrice)}>Price</Button>
-        <Menu
-          anchorEl={anchorElPrice}
-          keepMounted
-          open={Boolean(anchorElPrice)}
-          onClose={() => handleMenuClose(setAnchorElPrice)}
-        >
-          <MenuItem onClick={() => handleFilter({ minPrice: 0, maxPrice: 50 })}>Under $50</MenuItem>
-          <MenuItem onClick={() => handleFilter({ minPrice: 50, maxPrice: 75 })}>$50 - $75</MenuItem>
-          <MenuItem onClick={() => handleFilter({ minPrice: 75, maxPrice: 100 })}>$75 - $100</MenuItem>
-          <MenuItem onClick={() => handleFilter({ minPrice: 100 })}>$100 & Above</MenuItem>
-        </Menu>
-        <Button color="inherit" onClick={(e) => handleMenuOpen(e, setAnchorElMaterial)}>Material</Button>
-        <Menu
-          anchorEl={anchorElMaterial}
-          keepMounted
-          open={Boolean(anchorElMaterial)}
-          onClose={() => handleMenuClose(setAnchorElMaterial)}
-        >
-          <MenuItem onClick={() => handleFilter({ material: 'wood' })}>Wood</MenuItem>
-          <MenuItem onClick={() => handleFilter({ material: 'steel' })}>Steel</MenuItem>
-          <MenuItem onClick={() => handleFilter({ material: 'plastic' })}>Plastic</MenuItem>
-          <MenuItem onClick={() => handleFilter({ material: 'fabric' })}>Fabric</MenuItem>
-        </Menu>
-        <Button color="inherit" onClick={(e) => handleMenuOpen(e, setAnchorElFurnitureType)}>Furniture Type</Button>
-        <Menu
-          anchorEl={anchorElFurnitureType}
-          keepMounted
-          open={Boolean(anchorElFurnitureType)}
-          onClose={() => handleMenuClose(setAnchorElFurnitureType)}
-        >
-          <MenuItem onClick={() => handleFilter({ furnitureType: 'table' })}>Table</MenuItem>
-          <MenuItem onClick={() => handleFilter({ furnitureType: 'sofa' })}>Sofa</MenuItem>
-          <MenuItem onClick={() => handleFilter({ furnitureType: 'chair' })}>Chair</MenuItem>
-          <MenuItem onClick={() => handleFilter({ furnitureType: 'bed' })}>Bed</MenuItem>
-          <MenuItem onClick={() => handleFilter({ furnitureType: 'desk' })}>Desk</MenuItem>
-          <MenuItem onClick={() => handleFilter({ furnitureType: 'dressing table' })}>Dressing Table</MenuItem>
-          <MenuItem onClick={() => handleFilter({ furnitureType: 'crib' })}>Crib</MenuItem>
-        </Menu>
+          <Button color="inherit" onClick={() => navigate('/products')}>All Products</Button>
+          {Object.keys(menuItems).map((menuType) => (
+            <React.Fragment key={menuType}>
+              <Button
+                color="inherit"
+                onClick={(e) => handleMenuOpen(e, menuType)}
+              >
+                {menuType.charAt(0).toUpperCase() + menuType.slice(1)}
+              </Button>
+              <Menu
+                anchorEl={anchorEl[menuType]}
+                keepMounted
+                open={Boolean(anchorEl[menuType])}
+                onClose={() => handleMenuClose(menuType)}
+              >
+                {renderMenuItems(menuItems[menuType], menuType)}
+              </Menu>
+            </React.Fragment>
+          ))}
         </Box>
       </Toolbar>
     </AppBar>

@@ -31,3 +31,7 @@ background-color: white;
   .title {
     flex-grow: 1;
   }
+
+  input[type="text"] {
+    border:none !important
+  }

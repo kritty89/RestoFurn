@@ -21,9 +21,9 @@ public class DonationRequest {
         return "DonationRequest{" +
                 "name='" + name + '\'' +
                 ", address='" + address + '\'' +
-                ", contact=" + contact +
-                ", furnitureCount=" + furnitureCount +
-                ", description='" + description + '\'' +
+                ", contact=" + contact + '\'' +
+                ", furnitureCount=" + furnitureCount +'\'' +
+                ", description='" + description +
                 '}';
     }
 }
