@@ -76,7 +76,6 @@ public class UserController {
     }
 
     @PostMapping(value="/products")
-    @Autowired
     public ResponseEntity<List<ProductDetail>> processProductDetail(@RequestBody String data){
         List<Product> productList = (List<Product>) productRepository.findAll();
         List<ProductDetail> pdList = new ArrayList<>();

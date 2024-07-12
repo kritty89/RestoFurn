@@ -24,6 +24,14 @@ const apiService = {
         throw error;
       }
     },
+    deleteProduct: async (id) => {
+      try {
+        const response = await axiosInstance.delete(`/products/${id}`);
+        return response.data;
+      } catch (error) {
+        throw error;
+      }
+    },
     fetchFilteredProducts: async (filter) => {
       try {
         const response = await axiosInstance.post('/filteredproducts', filter);

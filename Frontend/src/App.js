@@ -11,6 +11,7 @@ import Register from './screens/RegisterPage';
 import About from './screens/About';
 import Cart from './screens/Cart';
 import Checkout from './screens/Checkout';
+import EmployeeDashboard from './screens/EmployeeDashboard';
 
 
 const App = () => {
@@ -28,6 +29,7 @@ const App = () => {
       <Route path="/products" element={<Products />} />
       <Route path="/cart" element={<Cart/>} />
       <Route path="/checkout" element={<Checkout/>} />
+      <Route path="/employeedashboard" element={<EmployeeDashboard/>} />
       </Routes>
       <Footer />
     </Router>
