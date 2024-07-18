@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'YOUR_API_ENDPOINT';
+const API_URL = 'http://localhost:8080/restofurn';
 
 const apiService = {
   fetchProducts: () => axios.get(`${API_URL}/products`),

@@ -1,32 +1,44 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
+import { TextInput, Button } from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native';
 
-const LoginScreen = ({ navigation }) => {
-  const [username, setUsername] = useState('');
+const LoginScreen = () => {
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const navigation = useNavigation();
 
-  const handleLogin = () => {
-    // Add authentication logic here
-    navigation.navigate('Home');
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post('http://localhost:8080/restofurn/elogin', { email, password });
+      if (response.status === 200) {
+        navigation.navigate('Home');
+      }
+    } catch (error) {
+      setError('Invalid email or password');
+    }
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Login</Text>
       <TextInput
+        label="Email"
+        value={email}
+        onChangeText={setEmail}
         style={styles.input}
-        placeholder="Username"
-        value={username}
-        onChangeText={setUsername}
       />
       <TextInput
-        style={styles.input}
-        placeholder="Password"
+        label="Password"
         value={password}
         onChangeText={setPassword}
         secureTextEntry
+        style={styles.input}
       />
-      <Button title="Login" onPress={handleLogin} />
+      {error ? <Text style={styles.errorText}>{error}</Text> : null}
+      <Button mode="contained" onPress={handleLogin} style={styles.button}>
+        Login
+      </Button>
     </View>
   );
 };
@@ -35,19 +47,18 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    padding: 20,
-  },
-  title: {
-    fontSize: 24,
-    marginBottom: 20,
-    textAlign: 'center',
+    padding: 16,
   },
   input: {
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    marginBottom: 20,
-    padding: 10,
+    marginBottom: 16,
+  },
+  button: {
+    marginTop: 16,
+  },
+  errorText: {
+    color: 'red',
+    textAlign: 'center',
+    marginBottom: 16,
   },
 });
 

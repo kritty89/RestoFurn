@@ -5,12 +5,13 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UserRegistration {
+public class EmployeeData {
     private String firstName;
     private String lastName;
     private String email;
     private String phone;
     private String password;
+    private String role;
 
     @Override
     public String toString() {
@@ -19,6 +20,7 @@ public class UserRegistration {
                 ", lastName='" + lastName + '\'' +
                 ", email=" + email + '\'' +
                 ", phone=" + phone + '\'' +
+                ", role=" + role + '\'' +
                 ", password=" + password +
                 '}';
     }

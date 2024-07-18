@@ -9,19 +9,25 @@ import java.util.Date;
 @Getter
 public class DonationRequest {
     private String name;
-    private String address;
-    private Integer contact;
+    private String streetAddress;
+    private String city;
+    private String postalCode;
+    private Long contact;
+    private String emailId;
     private Integer furnitureCount;
     private String description;
-    // private Date pickupDate;
-    //private Date pickupTate;
+    private Date pickupDateTime;
+//    private Date pickupTate;
 
     @Override
     public String toString() {
         return "DonationRequest{" +
                 "name='" + name + '\'' +
-                ", address='" + address + '\'' +
+                ", streetAddress='" + streetAddress + '\'' +
+                ", city='" + city + '\'' +
+                ", postalCode='" + postalCode + '\'' +
                 ", contact=" + contact + '\'' +
+                ", email=" + emailId + '\'' +
                 ", furnitureCount=" + furnitureCount +'\'' +
                 ", description='" + description +
                 '}';

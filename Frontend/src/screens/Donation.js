@@ -9,8 +9,11 @@ import FormatQuoteIcon from '@mui/icons-material/FormatQuote';
 const Donation = () => {
   const [formData, setFormData] = useState({
     name: '',
-    address: '',
+    streetAddress: '',
+    city: '',
+    postalCode: '',
     contact: '',
+    emailId: '',
     pickupDateTime: new Date(),
     description: '',
     furnitureCount: '',
@@ -26,11 +29,6 @@ const Donation = () => {
   const handleDateChange = (date) => {
     setFormData({ ...formData, pickupDate: date });
     setSelectedDate(date)
-  };
-
-
-  const handleFileChange = (e) => {
-    setFormData({ ...formData, images: e.target.files });
   };
 
   const handleSubmit = async (e) => {
@@ -73,9 +71,31 @@ const Donation = () => {
             />
             <TextField
               fullWidth
-              label="Address"
-              name="address"
-              value={formData.address}
+              label="Street Address"
+              name="streetAddress"
+              value={formData.streetAddress}
+              onChange={handleChange}
+              variant="outlined"
+              required
+              type="text"
+              className="form-input"
+            />
+            <TextField
+              fullWidth
+              label="City"
+              name="city"
+              value={formData.city}
+              onChange={handleChange}
+              variant="outlined"
+              required
+              type="text"
+              className="form-input"
+            />
+            <TextField
+              fullWidth
+              label="Postal Code"
+              name="postalCode"
+              value={formData.postalCode}
               onChange={handleChange}
               variant="outlined"
               required
@@ -91,6 +111,17 @@ const Donation = () => {
               variant="outlined"
               required
               type="tel"
+              className="form-input"
+            />
+            <TextField
+              fullWidth
+              label="Email Id"
+              name="emailId"
+              value={formData.emailId}
+              onChange={handleChange}
+              variant="outlined"
+              required
+              type="email"
               className="form-input"
             />
             <TextField
@@ -125,19 +156,6 @@ const Donation = () => {
                 renderInput={(params) => <TextField {...params} fullWidth variant="outlined" required className="form-input" />}
               />
             </LocalizationProvider>
-            <Button
-              variant="contained"
-              component="label"
-              className="upload-button"
-            >
-              Upload Images
-              <input
-                type="file"
-                hidden
-                multiple
-                onChange={handleFileChange}
-              />
-            </Button>
             <Box className="form-button">
               <Button variant="contained" color="primary" type="submit" fullWidth>
                 Request Pickup
