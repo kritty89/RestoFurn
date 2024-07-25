@@ -25,271 +25,270 @@ function ProductsHome() {
     <div className='product-container'>
       <ProductsNavbar />
       <div className='products'>
-      <h2>Shop by Price</h2>
-      <div className='category'>
-        <Card>
-          <CardActionArea component={Link} to={`/products`}>
-            <CardMedia
-              component="img"
-              alt="furniture"
-              className="category-card-media"
-              image={Image1}
-              title="Under 50$"
-            />
-            <CardContent>
-              <Typography gutterBottom variant="h6" component="div">
-                Under $50
-              </Typography>
-            </CardContent>
-          </CardActionArea>
-        </Card>
+        <h2>Shop by Price</h2>
+        <div className='category'>
+          <Card className='product-card'>
+            <CardActionArea component={Link} to={`/products`}>
+              <CardMedia
+                component="img"
+                alt="furniture"
+                className="category-card-media"
+                image={Image1}
+                title="Under 50$"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h6" component="div">
+                  Under $50
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+          </Card>
 
-        <Card>
-          <CardActionArea component={Link} to={`/products`}>
-            <CardMedia
-              component="img"
-              alt="furniture"
-              className="category-card-media"
-              image={Image2}
-              title="Under 50$"
-            />
-            <CardContent>
-              <Typography gutterBottom variant="h6" component="div">
-                $50 - $75
-              </Typography>
-            </CardContent>
-          </CardActionArea>
-        </Card>
+          <Card className='product-card'>
+            <CardActionArea component={Link} to={`/products`}>
+              <CardMedia
+                component="img"
+                alt="furniture"
+                className="category-card-media"
+                image={Image2}
+                title="Under 50$"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h6" component="div">
+                  $50 - $75
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+          </Card>
 
-        <Card>
-          <CardActionArea component={Link} to={`/products`}>
-            <CardMedia
-              component="img"
-              alt="furniture"
-              className="category-card-media"
-              image={Image3}
-              title="Under 75$"
-            />
-            <CardContent>
-              <Typography gutterBottom variant="h6" component="div">
-                $75 - $100
-              </Typography>
-            </CardContent>
-          </CardActionArea>
-        </Card>
+          <Card className='product-card'>
+            <CardActionArea component={Link} to={`/products`}>
+              <CardMedia
+                component="img"
+                alt="furniture"
+                className="category-card-media"
+                image={Image3}
+                title="Under 75$"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h6" component="div">
+                  $75 - $100
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+          </Card>
 
-        <Card>
-          <CardActionArea component={Link} to={`/products`}>
-            <CardMedia
-              component="img"
-              alt="furniture"
-              className="category-card-media"
-              image={Image4}
-              title="Under 100$"
-            />
-            <CardContent>
-              <Typography gutterBottom variant="h6" component="div">
-                $100 & Above
-              </Typography>
-            </CardContent>
-          </CardActionArea>
-        </Card>
-      </div>
-
-      <h2>Shop by Material</h2>
-      <div className='category'>
-        <Card>
-          <CardActionArea component={Link} to={`/products`}>
-            <CardMedia
-              component="img"
-              alt="furniture"
-              className="category-card-media"
-              image={Image5}
-              title="Wood"
-            />
-            <CardContent>
-              <Typography gutterBottom variant="h6" component="div">
-                Wood
-              </Typography>
-            </CardContent>
-          </CardActionArea>
-        </Card>
-
-        <Card>
-          <CardActionArea component={Link} to={`/products`}>
-            <CardMedia
-              component="img"
-              alt="furniture"
-              className="category-card-media"
-              image={Image6}
-              title="Steel"
-            />
-            <CardContent>
-              <Typography gutterBottom variant="h6" component="div">
-                Steel
-              </Typography>
-            </CardContent>
-          </CardActionArea>
-        </Card>
-
-        <Card>
-          <CardActionArea component={Link} to={`/products`}>
-            <CardMedia
-              component="img"
-              alt="furniture"
-              className="category-card-media"
-              image={Image7}
-              title="Plastic"
-            />
-            <CardContent>
-              <Typography gutterBottom variant="h6" component="div">
-                Plastic
-              </Typography>
-            </CardContent>
-          </CardActionArea>
-        </Card>
-
-        <Card>
-          <CardActionArea component={Link} to={`/products`}>
-            <CardMedia
-              component="img"
-              alt="furniture"
-              className="category-card-media"
-              image={Image8}
-              title="Fabric"
-            />
-            <CardContent>
-              <Typography gutterBottom variant="h6" component="div">
-                Fabric
-              </Typography>
-            </CardContent>
-          </CardActionArea>
-        </Card>
-      </div>
-
-      <h2>Shop by Furniture Type</h2>
-      <div className='category'>
-        <Card>
-          <CardActionArea component={Link} to={`/products`}>
-            <CardMedia
-              component="img"
-              alt="furniture"
-              className="category-card-media"
-              image={Image9}
-              title="Table"
-            />
-            <CardContent>
-              <Typography gutterBottom variant="h6" component="div">
-                Table
-              </Typography>
-            </CardContent>
-          </CardActionArea>
-        </Card>
-
-        <Card>
-          <CardActionArea component={Link} to={`/products`}>
-            <CardMedia
-              component="img"
-              alt="furniture"
-              className="category-card-media"
-              image={Image10}
-              title="Sofa"
-            />
-            <CardContent>
-              <Typography gutterBottom variant="h6" component="div">
-                Sofa
-              </Typography>
-            </CardContent>
-          </CardActionArea>
-        </Card>
-
-        <Card>
-          <CardActionArea component={Link} to={`/products`}>
-            <CardMedia
-              component="img"
-              alt="furniture"
-              className="category-card-media"
-              image={Image11}
-              title="Chair"
-            />
-            <CardContent>
-              <Typography gutterBottom variant="h6" component="div">
-                Chair
-              </Typography>
-            </CardContent>
-          </CardActionArea>
-        </Card>
-
-        <Card>
-          <CardActionArea component={Link} to={`/products`}>
-            <CardMedia
-              component="img"
-              alt="furniture"
-              className="category-card-media"
-              image={Image12}
-              title="Bed"
-            />
-            <CardContent>
-              <Typography gutterBottom variant="h6" component="div">
-                Bed
-              </Typography>
-            </CardContent>
-          </CardActionArea>
-        </Card>
-
-        <Card>
-          <CardActionArea component={Link} to={`/products`}>
-            <CardMedia
-              component="img"
-              alt="furniture"
-              className="category-card-media"
-              image={Image13}
-              title="Desk"
-            />
-            <CardContent>
-              <Typography gutterBottom variant="h6" component="div">
-                Desk
-              </Typography>
-            </CardContent>
-          </CardActionArea>
-        </Card>
-
-        <Card>
-          <CardActionArea component={Link} to={`/products`}>
-            <CardMedia
-              component="img"
-              alt="furniture"
-              className="category-card-media"
-              image={Image14}
-              title="Dressing Table"
-            />
-            <CardContent>
-              <Typography gutterBottom variant="h6" component="div">
-                Dressing Table
-              </Typography>
-            </CardContent>
-          </CardActionArea>
-        </Card>
-
-        <Card>
-          <CardActionArea component={Link} to={`/products`}>
-            <CardMedia
-              component="img"
-              alt="furniture"
-              className="category-card-media"
-              image={Image15}
-              title="Crib"
-            />
-            <CardContent>
-              <Typography gutterBottom variant="h6" component="div">
-                Crib
-              </Typography>
-            </CardContent>
-          </CardActionArea>
-        </Card>
-
+          <Card className='product-card'>
+            <CardActionArea component={Link} to={`/products`}>
+              <CardMedia
+                component="img"
+                alt="furniture"
+                className="category-card-media"
+                image={Image4}
+                title="Under 100$"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h6" component="div">
+                  $100 & Above
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+          </Card>
         </div>
 
+        <h2>Shop by Material</h2>
+        <div className='category'>
+          <Card className='product-card'>
+            <CardActionArea component={Link} to={`/products`}>
+              <CardMedia
+                component="img"
+                alt="furniture"
+                className="category-card-media"
+                image={Image5}
+                title="Wood"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h6" component="div">
+                  Wood
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+          </Card>
+
+          <Card className='product-card'>
+            <CardActionArea component={Link} to={`/products`}>
+              <CardMedia
+                component="img"
+                alt="furniture"
+                className="category-card-media"
+                image={Image6}
+                title="Steel"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h6" component="div">
+                  Steel
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+          </Card>
+
+          <Card className='product-card'>
+            <CardActionArea component={Link} to={`/products`}>
+              <CardMedia
+                component="img"
+                alt="furniture"
+                className="category-card-media"
+                image={Image7}
+                title="Plastic"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h6" component="div">
+                  Plastic
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+          </Card>
+
+          <Card className='product-card'>
+            <CardActionArea component={Link} to={`/products`}>
+              <CardMedia
+                component="img"
+                alt="furniture"
+                className="category-card-media"
+                image={Image8}
+                title="Fabric"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h6" component="div">
+                  Fabric
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+          </Card>
+        </div>
+
+        <h2>Shop by Furniture Type</h2>
+        <div className='category'>
+          <Card className='product-card'>
+            <CardActionArea component={Link} to={`/products`}>
+              <CardMedia
+                component="img"
+                alt="furniture"
+                className="category-card-media"
+                image={Image9}
+                title="Table"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h6" component="div">
+                  Table
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+          </Card>
+
+          <Card className='product-card'>
+            <CardActionArea component={Link} to={`/products`}>
+              <CardMedia
+                component="img"
+                alt="furniture"
+                className="category-card-media"
+                image={Image10}
+                title="Sofa"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h6" component="div">
+                  Sofa
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+          </Card>
+
+          <Card className='product-card'>
+            <CardActionArea component={Link} to={`/products`}>
+              <CardMedia
+                component="img"
+                alt="furniture"
+                className="category-card-media"
+                image={Image11}
+                title="Chair"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h6" component="div">
+                  Chair
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+          </Card>
+
+          <Card className='product-card'>
+            <CardActionArea component={Link} to={`/products`}>
+              <CardMedia
+                component="img"
+                alt="furniture"
+                className="category-card-media"
+                image={Image12}
+                title="Bed"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h6" component="div">
+                  Bed
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+          </Card>
+
+          <Card className='product-card'>
+            <CardActionArea component={Link} to={`/products`}>
+              <CardMedia
+                component="img"
+                alt="furniture"
+                className="category-card-media"
+                image={Image13}
+                title="Desk"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h6" component="div">
+                  Desk
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+          </Card>
+
+          <Card className='product-card'>
+            <CardActionArea component={Link} to={`/products`}>
+              <CardMedia
+                component="img"
+                alt="furniture"
+                className="category-card-media"
+                image={Image14}
+                title="Dressing Table"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h6" component="div">
+                  Dressing Table
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+          </Card>
+
+          <Card className='product-card'>
+            <CardActionArea component={Link} to={`/products`}>
+              <CardMedia
+                component="img"
+                alt="furniture"
+                className="category-card-media"
+                image={Image15}
+                title="Crib"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h6" component="div">
+                  Crib
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+          </Card>
+
+        </div>
       </div>
     </div>
   );

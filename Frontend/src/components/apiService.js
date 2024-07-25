@@ -16,6 +16,14 @@ const apiService = {
         throw error;
       }
     },
+    login: async (email, password) => {
+      try {
+        const response = await axiosInstance.post('/login', { email, password });
+        return response.data;
+      } catch (error) {
+        throw error;
+      }
+    },
     fetchProducts: async () => {
       try {
         const response = await axiosInstance.post('/products');
@@ -34,7 +42,15 @@ const apiService = {
     },
     fetchFilteredProducts: async (filter) => {
       try {
-        const response = await axiosInstance.post('/filteredproducts', filter);
+        const response = await axiosInstance.post('/filter', filter);
+        return response.data;
+      } catch (error) {
+        throw error;
+      }
+    },
+    fetchProductById: async (id) => {
+      try {
+        const response = await axiosInstance.post(`/productdetail/${id}`);
         return response.data;
       } catch (error) {
         throw error;
@@ -51,6 +67,23 @@ const apiService = {
     register: async (userData) => {
       try {
         const response = await axiosInstance.post('/register', userData);
+        return response.data;
+      } catch (error) {
+        throw error;
+      }
+    },
+    processOrder: async (orderDetails) => {
+      try {
+        const response = await axiosInstance.post('/order', orderDetails);
+        return response.data;
+      } catch (error) {
+        throw error;
+      }
+    },
+
+    processPayment:  async ({ url, data }) => {
+      try {
+        const response = await axiosInstance.post(url, data);
         return response.data;
       } catch (error) {
         throw error;

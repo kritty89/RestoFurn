@@ -1,16 +1,21 @@
 import React from 'react';
-import { Card, CardContent, CardMedia, Typography, CardActions, Button } from '@mui/material';
+import { Card, CardContent, CardMedia, Typography, CardActions, Button, CardActionArea } from '@mui/material';
 import Image1 from '../assets/product_category/sofa2.jpg';
-import '../css/Products.css'
+import { Link } from 'react-router-dom';
+import { useCart } from '../contexts/CartContext';
+import '../css/ProductCard.css'
 
 const ProductCard = ({ product }) => {
+    const { addToCart } = useCart();
     return (
-        <Card sx={{ maxWidth: 345, margin: 2 }}>
+        <Card className='category-card' sx={{ maxWidth: 345, margin: 2 }}>
+            <CardActionArea component={Link} to={`/productdetail/${product.id}`}>
             <CardMedia
                 component="img"
                 height="200"
-                image={Image1}
+                image={product.image || Image1}
                 alt={product.furnitureName}
+                className="card-media-hover"
             />
             <CardContent>
                 <Typography gutterBottom variant="h5" component="div" className='furniture-name'>
@@ -24,9 +29,9 @@ const ProductCard = ({ product }) => {
                 </Typography>
             </CardContent>
             <CardActions>
-                <Button size="small">Add to Cart</Button>
-                <Button size="small">View Details</Button>
+                <Button size="small" onClick={() => addToCart(product)}>Add to Cart</Button>
             </CardActions>
+            </CardActionArea>
         </Card>
     );
 };

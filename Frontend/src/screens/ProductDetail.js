@@ -1,27 +1,39 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom';
 import '../css/Products.css';
-import ImageSlideshow from '../components/ImageSlideshow';
 import ProductsNavbar from '../components/ProductsNavbar';
+import apiService from '../components/apiService';
+import { useCart } from '../contexts/CartContext';
 
-const images1 = [
-  { url: 'https://via.placeholder.com/800x400.png?text=Slideshow+1+Image+1', alt: 'Slideshow 1 Image 1' },
-  { url: 'https://via.placeholder.com/800x400.png?text=Slideshow+1+Image+2', alt: 'Slideshow 1 Image 2' },
-  { url: 'https://via.placeholder.com/800x400.png?text=Slideshow+1+Image+3', alt: 'Slideshow 1 Image 3' }
-];
+const ProductDetail = () => {
+  const { id } = useParams();
+  const [product, setProduct] = useState(null);
+  const { addToCart } = useCart();
 
-function ProductDetail(){
-    return (
-      <div>
-        <ProductsNavbar />
-        <h2>Shop by Price</h2>
-        <div className='category'>
-          <div className='sub-category'>
-            <h2>Under 25$</h2>
-            <ImageSlideshow images={images1} />
-          </div>
-        </div>
-      </div>
-    );
+  useEffect(() => {
+    const fetchProduct = async () => {
+      const response = await apiService.fetchProductById (id);
+      setProduct(response);
+    };
+    fetchProduct();
+  }, [id]);
+
+  if (!product) { 
+    return <div>Loading...</div>;
   }
-  
-  export default ProductDetail
+
+  return (
+    <div>
+      <ProductsNavbar />
+      <div>
+        <h1>{product.furnitureName}</h1>
+        <img src={product.image || 'default_image_path.jpg'} alt={product.furnitureName} />
+        <p>{product.description}</p>
+        <p>${product.price}</p>
+        <button onClick={() => addToCart(product)}>Add to Cart</button>
+      </div>
+    </div>
+  );
+};
+
+export default ProductDetail;

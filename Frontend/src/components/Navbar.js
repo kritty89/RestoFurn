@@ -49,7 +49,7 @@ const handleClose = () => {
             <PersonAdd style={{ marginRight: 8 }} /> Register
           </MenuItem>
           </Menu>
-          {location.pathname === '/productshome' && (
+          {location.pathname.includes('product') && (
           <Button color="inherit" component={Link} to="/cart">
             <ShoppingCart style={{ marginRight: 8 }} /> Cart
           </Button>

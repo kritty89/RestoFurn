@@ -1,19 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import apiService from '../components/apiService';
 import { useLocation } from 'react-router-dom';
 import ProductsNavbar from '../components/ProductsNavbar';
 import ProductCard from '../components/ProductCard';
 import '../css/Products.css';
 
-const useQuery = () => {
-  return new URLSearchParams(useLocation().search);
-};
-
 const Products = () => {
   const [products, setProducts] = useState([]);
-  const query = useQuery();
+  const location = useLocation();
 
-  const fetchProducts = async () => {
+  const query = useMemo(() => new URLSearchParams(location.search), [location.search]);
+
+  const fetchProducts = useCallback(async () => {
     try{
     const filter = {
       material: query.get('material'),
@@ -32,11 +30,11 @@ const Products = () => {
   catch (error) {
     console.error('Error fetching products:', error);
   }
-};
+}, [query]);
 
-  useEffect(() => {  
-    fetchProducts();
-  }, []);
+useEffect(() => {
+  fetchProducts();
+}, [fetchProducts]);
 
 return (
   <div className="products-page">
@@ -44,7 +42,7 @@ return (
     <div className="product-list">
     {products.length > 0 ? (
           products.map((product) => (
-            <ProductCard key={product.id} product={product} />
+            <ProductCard key={product.id} product={product} className='product-card'/>
           ))
         ) : (
           <div>No products available</div>

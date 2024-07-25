@@ -5,20 +5,19 @@ import com.sparkinnovators.RestoFurn.Entity.Product;
 import com.sparkinnovators.RestoFurn.Entity.User;
 import com.sparkinnovators.RestoFurn.Service.EmailService;
 import com.sparkinnovators.RestoFurn.Service.EmployeeService;
-import com.sparkinnovators.RestoFurn.model.DonationRequest;
-import com.sparkinnovators.RestoFurn.model.EmployeeData;
-import com.sparkinnovators.RestoFurn.model.ProductDetail;
-import com.sparkinnovators.RestoFurn.model.UserRegistration;
+import com.sparkinnovators.RestoFurn.Service.ProductService;
+import com.sparkinnovators.RestoFurn.model.*;
 import com.sparkinnovators.RestoFurn.repository.DonationRepository;
 import com.sparkinnovators.RestoFurn.repository.ProductRepository;
 import com.sparkinnovators.RestoFurn.repository.UserRepository;
+import com.stripe.Stripe;
+import com.stripe.model.Charge;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 
 @RestController
@@ -26,10 +25,16 @@ import java.util.List;
 @RequestMapping(value = "/restofurn")
 public class UserController {
 
+    static {
+        Stripe.apiKey = "sk_test_51PfVMmRrfzZH74QfGRu3xqIgHMwtGOLWglhFbhaKnwBtJ7TdWsCCLwv8aHELEm8qTCA2cQk1zOIJkV6XyCGGlwiB00vqtfEfqN";
+    }
+
+
     private final DonationRepository donationRepository;
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
     private final EmailService emailService;
+    private final ProductService productService;
 
 
     @Autowired
@@ -37,11 +42,12 @@ public class UserController {
 
     @Autowired
     public UserController(final DonationRepository donationRepository, UserRepository userRepository,
-                          ProductRepository productRepository, EmailService emailService) {
+                          ProductRepository productRepository, EmailService emailService, ProductService productService) {
         this.donationRepository = donationRepository;
         this.userRepository = userRepository;
         this.productRepository = productRepository;
         this.emailService = emailService;
+        this.productService = productService;
     }
 
     @PostMapping(value = "/donation")
@@ -108,6 +114,7 @@ public class UserController {
             for (Product p : productList) {
                 ProductDetail pd = new ProductDetail();
 
+                pd.setId(p.getId());
                 pd.setFurnitureName(p.getFurnitureName());
                 pd.setFurnitureType(p.getFurnitureType());
                 pd.setMaterial(p.getMaterial());
@@ -125,6 +132,17 @@ public class UserController {
 
     }
 
+    @PostMapping(value = "/productdetail/{id}")
+    public Product getProductById(@PathVariable Long id) {
+        return productService.getProductById(id);
+    }
+
+    @PostMapping("/filter")
+    public ResponseEntity<List<Product>> getFilteredProducts(@RequestBody ProductFilter filter) {
+        List<Product> products = productService.getFilteredProducts(filter);
+        return ResponseEntity.ok(products);
+    }
+
     @PostMapping(value = "/elogin")
     public ResponseEntity<String> employeeLogin(@RequestBody final EmployeeData employeeData) {
         System.out.println("employeeData :: " + employeeData.toString());
@@ -139,5 +157,20 @@ public class UserController {
         }*/
 
         return ResponseEntity.ok("OK");
+    }
+    @PostMapping("/process-payment")
+    public ResponseEntity<String> processPayment(@RequestBody PaymentRequest paymentRequest) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("amount", 1000);
+        params.put("currency", "usd");
+        params.put("description", "Example charge");
+        params.put("source", paymentRequest.getToken());
+
+        try {
+            Charge charge = Charge.create(params);
+            return ResponseEntity.ok("Payment successful!");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Payment failed: " + e.getMessage());
+        }
     }
 }

@@ -1,41 +1,54 @@
-import React, { useState } from 'react';
-import CartItem from '../components/CartItem.js'
-import CartSummary from '../components/CartSummary.js';
+import React from 'react';
+import { useCart } from '../contexts/CartContext';
+import { Button } from '@mui/material';
 import '../css/Cart.css';
+import { useNavigate } from 'react-router-dom';
 
+const Cart = () => {
+  const { cart, removeFromCart } = useCart();
+  const navigate = useNavigate();
 
-function Cart() {
-  const [cart, setCart] = useState([
-    { id: 1, name: "Sofa", price: 37.99, material: 'Cotton', size: 'Large', image: 'https://via.placeholder.com/100' },
-    { id: 2, name: 'Door', price: 29.98, material: 'wooden', size: 'Large', image: 'https://via.placeholder.com/100' },
-    { id: 4, name: 'Bed', price: 39.99, material: 'Wooden', size: 'Large', image: 'https://via.placeholder.com/100' },
-    { id: 5, name: 'Chair', price: 39.99, material: 'Plastic', size: 'Medium', image: 'https://via.placeholder.com/100' },
-    { id: 6, name: 'Mirror', price: 39.99, material: 'Glass', size: 'Small', image: 'https://via.placeholder.com/100' },
-  ]);
-
-  const removeFromCart = (index) => {
-    setCart(cart.filter((_, i) => i !== index));
+  const handleRemove = (id) => {
+    removeFromCart(id);
   };
 
-  const subtotal = cart.reduce((sum, item) => sum + item.price,0);
+  const calculateTotalPrice = () => {
+    return cart.reduce((total, product) => total + product.price, 0).toFixed(2);
+  };
+  const handleCheckout = () => {
+    navigate('/checkout', { state: { cart } });
+  };
 
   return (
-    <div className="cart">
-      <div className="cart-header">
-        <h2>Shopping Cart</h2>
-      </div>
-      <div className="cart-container">
-        <div className="cart-items">
-          {cart.map((item, index) => (
-            <CartItem key={item.id} item={item} removeFromCart={() => removeFromCart(index)} />
+    <div className="cart-page">
+      <h1>Your Cart</h1>
+      {cart.length === 0 ? (
+        <p>Your cart is empty</p>
+      ) : (
+        <div>
+          {cart.map((product) => (
+            <div key={product.id} className="cart-item">
+              <img src={product.coverImage} alt={product.furnitureName} className="cart-item-image" />
+              <div className="cart-item-details">
+                <h2>{product.furnitureName}</h2>
+                <p>{product.description}</p>
+                <p>${product.price.toFixed(2)}</p>
+                <Button variant="outlined" onClick={() => handleRemove(product.id)}>
+                  Remove
+                </Button>
+              </div>
+            </div>
           ))}
+          <div className="cart-total">
+            <h2>Total Price: ${calculateTotalPrice()}</h2>
+            <Button variant="contained" color="primary" onClick={handleCheckout}>
+              Checkout
+            </Button>
+          </div>
         </div>
-        <div className="cart-summary-container">
-          <CartSummary subtotal={subtotal} />
-        </div>
-      </div>
+      )}
     </div>
   );
-}
+};
 
 export default Cart;

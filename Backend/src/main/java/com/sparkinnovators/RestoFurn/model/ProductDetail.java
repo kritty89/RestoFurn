@@ -7,6 +7,7 @@ import lombok.Setter;
 @Setter
 @Getter
 public class ProductDetail {
+    private Long id;
     private String furnitureName;
     private String furnitureType;
     private String material;
@@ -19,6 +20,7 @@ public class ProductDetail {
     @Override
     public String toString() {
         return "ProductDetail{" +
+                "id=" + id + '\'' +
                 "furnitureName=" + furnitureName + '\'' +
                 "furnitureType=" + furnitureType + '\'' +
                 "material=" + material + '\'' +
