@@ -4,6 +4,7 @@ import '../css/ProductDetail.css';
 import ProductsNavbar from '../components/ProductsNavbar';
 import apiService from '../components/apiService';
 import { useCart } from '../contexts/CartContext';
+import Products from './Products';
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -12,13 +13,13 @@ const ProductDetail = () => {
 
   useEffect(() => {
     const fetchProduct = async () => {
-      const response = await apiService.fetchProductById (id);
+      const response = await apiService.fetchProductById(id);
       setProduct(response);
     };
     fetchProduct();
   }, [id]);
 
-  if (!product) { 
+  if (!product) {
     return <div>Loading...</div>;
   }
 
@@ -28,7 +29,7 @@ const ProductDetail = () => {
       <div className='product-detail'>
         <h1>{product.furnitureName}</h1>
         <div className="image-container">
-          <img src={product.coverImage || 'default_image_path.jpg'} alt={product.furnitureName}/>
+          <img src={product.coverImage || 'default_image_path.jpg'} alt={product.furnitureName} />
         </div>
         <p>{product.description}</p>
         <p>Price: ${product.price}</p>
@@ -36,6 +37,8 @@ const ProductDetail = () => {
         <p>Category : {product.furnitureType}</p>
         <button onClick={() => addToCart(product)}>Add to Cart</button>
       </div>
+<h2> Check other products from us!</h2>
+<Products />
     </div>
   );
 };

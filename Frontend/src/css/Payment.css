@@ -1,20 +1,39 @@
+#payment-form {
+  width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  font-family: Arial, sans-serif;
+}
 
-.payment-page {
-    padding: 20px;
-    max-width: 600px;
-    margin: auto;
-  }
-  
-  .payment-page form {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .payment-page .MuiTextField-root {
-    margin-bottom: 16px;
-  }
-  
-  .payment-page .StripeElement {
-    margin-bottom: 16px;
-  }
-  
+#card-element {
+  margin-bottom: 20px;
+}
+
+#submit {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 16px;
+}
+
+#submit:disabled {
+  background-color: #cccccc;
+}
+
+.card-error {
+  color: red;
+  margin-top: 20px;
+}
+
+.result-message {
+  color: green;
+  margin-top: 20px;
+  text-align: center;
+}

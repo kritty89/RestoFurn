@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { AppBar, Tabs, Tab, Box, TextField, Button, Table, TableBody, TableCell, TableHead, TableRow, IconButton, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import { Delete, Edit } from '@mui/icons-material';
 import apiService from '../components/apiService';
+import '../css/EmployeeDashboard.css';  // Import the CSS file
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -111,15 +112,15 @@ export default function EmployeeDashboard() {
   };
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <AppBar position="static">
+    <Box className="box">
+      <AppBar position="static" className="tabs-container">
         <Tabs value={value} onChange={handleChange} aria-label="employee dashboard tabs">
           <Tab label="Add Product" />
           <Tab label="Manage Products" />
         </Tabs>
       </AppBar>
-      <TabPanel value={value} index={0}>
-        <form onSubmit={handleFormSubmit}>
+      <TabPanel value={value} index={0} className="tab-panel">
+        <form onSubmit={handleFormSubmit} className="form-container">
           <TextField
             label="Furniture Name"
             name="furnitureName"
@@ -127,8 +128,9 @@ export default function EmployeeDashboard() {
             onChange={handleInputChange}
             fullWidth
             margin="normal"
+            className="text-field"
           />
-          <FormControl fullWidth margin="normal">
+          <FormControl fullWidth margin="normal" className="text-field">
             <InputLabel>Furniture Type</InputLabel>
             <Select
               label="Furniture Type"
@@ -145,7 +147,7 @@ export default function EmployeeDashboard() {
               <MenuItem value="crib">Crib</MenuItem>
             </Select>
           </FormControl>
-          <FormControl fullWidth margin="normal">
+          <FormControl fullWidth margin="normal" className="text-field">
             <InputLabel>Material</InputLabel>
             <Select
               label="Material"
@@ -166,8 +168,9 @@ export default function EmployeeDashboard() {
             onChange={handleInputChange}
             fullWidth
             margin="normal"
+            className="text-field"
           />
-          <FormControl fullWidth margin="normal">
+          <FormControl fullWidth margin="normal" className="text-field">
             <InputLabel>Status</InputLabel>
             <Select
               label="Status"
@@ -175,14 +178,14 @@ export default function EmployeeDashboard() {
               value={formData.furnitureStatus}
               onChange={handleInputChange}
             >
-              <MenuItem value="recieved">Received</MenuItem>
+              <MenuItem value="received">Received</MenuItem>
               <MenuItem value="initial check">Initial Check</MenuItem>
               <MenuItem value="renovated">Renovated</MenuItem>
               <MenuItem value="quality check">Quality Check</MenuItem>
               <MenuItem value="ready for sale">Ready for Sale</MenuItem>
             </Select>
           </FormControl>
-          <FormControl fullWidth margin="normal">
+          <FormControl fullWidth margin="normal" className="text-field">
             <InputLabel>In Stock</InputLabel>
             <Select
               label="In Stock"
@@ -201,12 +204,13 @@ export default function EmployeeDashboard() {
             onChange={handleInputChange}
             fullWidth
             margin="normal"
+            className="text-field"
           />
           <Button
             variant="contained"
             component="label"
             fullWidth
-            margin="normal"
+            className="button"
           >
             Upload Image
             <input
@@ -215,45 +219,60 @@ export default function EmployeeDashboard() {
               onChange={handleFileChange}
             />
           </Button>
-          <Button type="submit" variant="contained" color="primary">
+          <TextField
+            label="Description"
+            name="description"
+            value={formData.description}
+            onChange={handleInputChange}
+            fullWidth
+            margin="normal"
+            multiline
+            rows={4}
+            className="text-field"
+          />
+          <Button type="submit" variant="contained" color="primary" className="button">
             {formData.id ? 'Update Product' : 'Add Product'}
           </Button>
         </form>
       </TabPanel>
-      <TabPanel value={value} index={1}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell>Price</TableCell>
-              <TableCell>Description</TableCell>
-              <TableCell>In Stock</TableCell>
-              <TableCell>Image</TableCell>
-              <TableCell>Actions</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {products.map((product) => (
-              <TableRow key={product.id}>
-                <TableCell>{product.furnitureName}</TableCell>
-                <TableCell>{product.price}</TableCell>
-                <TableCell>{product.description}</TableCell>
-                <TableCell>{product.inStock}</TableCell>
-                <TableCell>
-                  <img src={product.coverImage} alt={product.furnitureName} width="100" />
-                </TableCell>
-                <TableCell>
-                  <IconButton onClick={() => handleEditProduct(product)}>
-                    <Edit />
-                  </IconButton>
-                  <IconButton onClick={() => handleDeleteProduct(product.id)}>
-                    <Delete />
-                  </IconButton>
-                </TableCell>
+      <TabPanel value={value} index={1} className="tab-panel">
+        <Box className="table-container">
+          <Table className="table">
+            <TableHead>
+              <TableRow className="table-head">
+                <TableCell className="table-head-cell">Name</TableCell>
+                <TableCell className="table-head-cell">Price</TableCell>
+                <TableCell className="table-head-cell">Description</TableCell>
+                <TableCell className="table-head-cell">In Stock</TableCell>
+                <TableCell className="table-head-cell">Image</TableCell>
+                <TableCell className="table-head-cell">Actions</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHead>
+            <TableBody>
+              {products.map((product) => (
+                <TableRow key={product.id} className="table-row">
+                  <TableCell className="table-cell">{product.furnitureName}</TableCell>
+                  <TableCell className="table-cell">{product.price}</TableCell>
+                  <TableCell className="table-cell">{product.description}</TableCell>
+                  <TableCell className="table-cell">{product.inStock}</TableCell>
+                  <TableCell className="table-cell">
+                    <img src={product.coverImage} alt={product.furnitureName} className="table-image" />
+                  </TableCell>
+                  <TableCell className="table-cell">
+                    <Box className="action-buttons">
+                      <IconButton onClick={() => handleEditProduct(product)}>
+                        <Edit />
+                      </IconButton>
+                      <IconButton onClick={() => handleDeleteProduct(product.id)}>
+                        <Delete />
+                      </IconButton>
+                    </Box>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </Box>
       </TabPanel>
     </Box>
   );

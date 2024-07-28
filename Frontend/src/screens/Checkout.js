@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { Button } from '@mui/material';
@@ -12,6 +11,14 @@ const Checkout = () => {
 
   const calculateTotalPrice = () => {
     return cart.reduce((total, product) => total + product.price, 0).toFixed(2);
+  };
+
+  const calculateTax = () => {
+    return (calculateTotalPrice() * 0.13).toFixed(2);
+  };
+
+  const calculateFinalAmount = () => {
+    return (parseFloat(calculateTotalPrice()) + parseFloat(calculateTax())).toFixed(2);
   };
 
   const handlePayment = () => {
@@ -37,6 +44,8 @@ const Checkout = () => {
           ))}
           <div className="checkout-total">
             <h2>Total Price: ${calculateTotalPrice()}</h2>
+            <h2>Tax: ${calculateTax()}</h2>
+            <h2>Amount to Pay: ${calculateFinalAmount()}</h2>
             <Button variant="contained" color="primary" onClick={handlePayment}>
               Proceed to Payment
             </Button>
@@ -48,4 +57,3 @@ const Checkout = () => {
 };
 
 export default Checkout;
-
