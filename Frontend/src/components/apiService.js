@@ -16,9 +16,9 @@ const apiService = {
         throw error;
       }
     },
-    login: async (email, password) => {
+    employeeLogin: async (email, password) => {
       try {
-        const response = await axiosInstance.post('/login', { email, password });
+        const response = await axiosInstance.post('/elogin', { email, password });
         return response.data;
       } catch (error) {
         throw error;
@@ -27,14 +27,6 @@ const apiService = {
     fetchProducts: async () => {
       try {
         const response = await axiosInstance.post('/products');
-        return response.data;
-      } catch (error) {
-        throw error;
-      }
-    },
-    deleteProduct: async (id) => {
-      try {
-        const response = await axiosInstance.delete(`/products/${id}`);
         return response.data;
       } catch (error) {
         throw error;
@@ -80,7 +72,6 @@ const apiService = {
         throw error;
       }
     },
-
     processPayment:  async ({ url, data }) => {
       try {
         const response = await axiosInstance.post(url, data);
@@ -89,6 +80,50 @@ const apiService = {
         throw error;
       }
     },
+    createProduct: async (productData) => {
+    try {
+      const response = await axiosInstance.post('/product', productData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+  updateProduct: async (id, productData) => {
+    try {
+      const response = await axiosInstance.put(`/product/${id}`, productData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+  deleteProduct: async (id) => {
+    try {
+      const response = await axiosInstance.delete(`/product/${id}`);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+  uploadImage: async (formData) => {
+    const response = await axiosInstance.post('/upload-image', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data;
+  },
   };
   
   export default apiService;

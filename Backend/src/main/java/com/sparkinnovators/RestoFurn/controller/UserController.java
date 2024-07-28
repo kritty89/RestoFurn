@@ -1,22 +1,26 @@
 package com.sparkinnovators.RestoFurn.controller;
 
-import com.sparkinnovators.RestoFurn.Entity.Donation;
-import com.sparkinnovators.RestoFurn.Entity.Product;
-import com.sparkinnovators.RestoFurn.Entity.User;
-import com.sparkinnovators.RestoFurn.Service.EmailService;
-import com.sparkinnovators.RestoFurn.Service.EmployeeService;
-import com.sparkinnovators.RestoFurn.Service.ProductService;
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sparkinnovators.RestoFurn.Entity.*;
+import com.sparkinnovators.RestoFurn.Service.*;
 import com.sparkinnovators.RestoFurn.model.*;
 import com.sparkinnovators.RestoFurn.repository.DonationRepository;
 import com.sparkinnovators.RestoFurn.repository.ProductRepository;
 import com.sparkinnovators.RestoFurn.repository.UserRepository;
-import com.stripe.Stripe;
 import com.stripe.model.Charge;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 
@@ -24,30 +28,29 @@ import java.util.*;
 @CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping(value = "/restofurn")
 public class UserController {
-
-    static {
-        Stripe.apiKey = "sk_test_51PfVMmRrfzZH74QfGRu3xqIgHMwtGOLWglhFbhaKnwBtJ7TdWsCCLwv8aHELEm8qTCA2cQk1zOIJkV6XyCGGlwiB00vqtfEfqN";
-    }
-
-
     private final DonationRepository donationRepository;
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
     private final EmailService emailService;
     private final ProductService productService;
-
-
-    @Autowired
-    private EmployeeService employeeService;
+    private final EmployeeService employeeService;
+    private final OrderService orderService;
+    private final UserService userService;
+    private final Cloudinary cloudinary;
 
     @Autowired
     public UserController(final DonationRepository donationRepository, UserRepository userRepository,
-                          ProductRepository productRepository, EmailService emailService, ProductService productService) {
+                          ProductRepository productRepository, EmailService emailService, ProductService productService,
+                          EmployeeService employeeService, OrderService orderService, UserService userService, Cloudinary cloudinary) {
         this.donationRepository = donationRepository;
         this.userRepository = userRepository;
         this.productRepository = productRepository;
         this.emailService = emailService;
         this.productService = productService;
+        this.employeeService = employeeService;
+        this.orderService = orderService;
+        this.userService = userService;
+        this.cloudinary = cloudinary;
     }
 
     @PostMapping(value = "/donation")
@@ -142,22 +145,22 @@ public class UserController {
         List<Product> products = productService.getFilteredProducts(filter);
         return ResponseEntity.ok(products);
     }
-
     @PostMapping(value = "/elogin")
     public ResponseEntity<String> employeeLogin(@RequestBody final EmployeeData employeeData) {
         System.out.println("employeeData :: " + employeeData.toString());
 
-       /* if (null != employeeData) {
+        if (employeeData != null) {
             System.out.println("employeeData :: " + employeeData.toString());
-            Employee employee = EmployeeService.authenticate(employeeData.getEmail(), employeeData.getPassword());
+            Employee employee = employeeService.authenticate(employeeData.getEmail(), employeeData.getPassword());
             if (employee != null) {
                 return ResponseEntity.ok(employee.getFirstName());
             }
             return ResponseEntity.status(401).body("Invalid email or password");
-        }*/
+        }
 
         return ResponseEntity.ok("OK");
     }
+
     @PostMapping("/process-payment")
     public ResponseEntity<String> processPayment(@RequestBody PaymentRequest paymentRequest) {
         Map<String, Object> params = new HashMap<>();
@@ -171,6 +174,73 @@ public class UserController {
             return ResponseEntity.ok("Payment successful!");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Payment failed: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/product")
+    public ResponseEntity<Product> createProduct(@RequestPart("product") String productString,
+                                                 @RequestPart(value = "imageFile", required = false) MultipartFile imageFile) {
+        try {
+            Product product = new ObjectMapper().readValue(productString, Product.class);
+            String imageUrl = null;
+            if (imageFile != null && !imageFile.isEmpty()) {
+                imageUrl = productService.uploadImageToCloudinary(imageFile);
+            }
+            product.setCoverImage(imageUrl);
+            Product savedProduct = productService.saveProduct(product);
+            return ResponseEntity.ok(savedProduct);
+        } catch (IOException e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @PutMapping("/product/{id}")
+    public ResponseEntity<Product> updateProduct(@PathVariable Long id,
+                                                 @RequestPart("product") String productString,
+                                                 @RequestPart(value = "imageFile", required = false) MultipartFile imageFile) {
+        try {
+            Product product = new ObjectMapper().readValue(productString, Product.class);
+            String imageUrl = null;
+            if (imageFile != null && !imageFile.isEmpty()) {
+                imageUrl = productService.uploadImageToCloudinary(imageFile);
+            }
+            product.setCoverImage(imageUrl);
+            Product updatedProduct = productService.updateProduct(id, product);
+            return ResponseEntity.ok(updatedProduct);
+        } catch (IOException e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @DeleteMapping("/product/{id}")
+    public ResponseEntity<String> deleteProduct(@PathVariable Long id) {
+        productService.deleteProduct(id);
+        return ResponseEntity.ok("Product deleted successfully!");
+    }
+
+    @PostMapping
+    public ResponseEntity<Order> createOrder(@RequestBody OrderRequest orderRequest) {
+        User user = userService.getUserById(orderRequest.getUserId());
+        Product product = productService.getProductById(orderRequest.getProductId());
+
+        Order order = new Order();
+        order.setUser(user);
+        order.setProduct(product);
+        order.setOrderDate(new Date());
+        order.setTotalPrice(product.getPrice());
+
+        Order savedOrder = orderService.saveOrder(order);
+        return ResponseEntity.ok(savedOrder);
+    }
+
+    @PostMapping("/upload-image")
+    public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file) {
+        try {
+            Map uploadResult = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
+            String imageUrl = (String) uploadResult.get("url");
+            return ResponseEntity.ok(imageUrl);
+        } catch (IOException e) {
+            return ResponseEntity.status(500).body("Image upload failed: " + e.getMessage());
         }
     }
 }

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { Container, TextField, Button, Typography, Box, Tabs, Tab } from '@mui/material';
 import apiService from '../components/apiService';
 import '../css/App.css';
@@ -8,7 +8,7 @@ import '../css/Login.css';
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [employeeId, setEmployeeId] = useState('');
+  const [employeeEmail, setEmployeeEmail] = useState('');
   const [employeePassword, setEmployeePassword] = useState('');
   const [tab, setTab] = useState(0);
   const [error, setError] = useState('');
@@ -23,7 +23,7 @@ const LoginPage = () => {
     try {
       const userData = await apiService.login(email, password);
       console.log('User Login Successful:', userData);
-      navigate('/productsHome');
+      navigate('/productshome');
     } catch (error) {
       console.error('User Login Failed:', error);
       setError('User login failed. Please try again.');
@@ -33,9 +33,9 @@ const LoginPage = () => {
   const handleEmployeeLoginSubmit = async (e) => {
     e.preventDefault();
     try {
-      const employeeData = await apiService.employeeLogin(employeeId, employeePassword);
+      const employeeData = await apiService.employeeLogin(employeeEmail, employeePassword);
       console.log('Employee Login Successful:', employeeData);
-      navigate('/employeeDashboard');
+      navigate('/employeedashboard');
     } catch (error) {
       console.error('Employee Login Failed:', error);
       setError('Employee login failed. Please try again.');
@@ -49,7 +49,7 @@ const LoginPage = () => {
           Login
         </Typography>
         {error && <Typography color="error">{error}</Typography>}
-        <Tabs value={tab} onChange={handleTabChange} aria-label="login tabs">
+        <Tabs value={tab} onChange={handleTabChange} aria-label="login tabs"className='login-tabs'>
           <Tab label="User Login" />
           <Tab label="Employee Login" />
         </Tabs>
@@ -84,17 +84,24 @@ const LoginPage = () => {
                 Login
               </Button>
             </Box>
+
+            <Box mt={2} textAlign="center">
+              <Typography variant="body2">
+                Don't have an account? <Link to="/register">Register here</Link>
+              </Typography>
+            </Box>
           </form>
+
         )}
         {tab === 1 && (
           <form onSubmit={handleEmployeeLoginSubmit} className="login-form">
             <TextField
               fullWidth
-              label="Employee Id"
-              name="employeeId"
+              label="Employee Email"
+              name="employeeEmail"
               type="email"
-              value={employeeId}
-              onChange={(e) => setEmployeeId(e.target.value)}
+              value={employeeEmail}
+              onChange={(e) => setEmployeeEmail(e.target.value)}
               margin="normal"
               variant="outlined"
               required

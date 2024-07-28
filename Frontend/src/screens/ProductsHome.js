@@ -3,6 +3,7 @@ import '../css/ProductsHome.css';
 import { Link } from 'react-router-dom';
 import { Card, CardActionArea, CardMedia, CardContent, Typography } from '@mui/material';
 import ProductsNavbar from '../components/ProductsNavbar';
+import { useNavigate } from 'react-router-dom';
 
 import Image1 from '../assets/product_category/wooden_chair.jpg';
 import Image2 from '../assets/product_category/table_chair2.jpg';
@@ -20,7 +21,51 @@ import Image13 from '../assets/product_category/office_desk1.jpg';
 import Image14 from '../assets/product_category/dressing_table.jpg';
 import Image15 from '../assets/product_category/crib.jpg';
 
+const price = [
+  { label: 'Under $50', filter: { minPrice: 0, maxPrice: 50 } },
+  { label: '$50 - $75', filter: { minPrice: 50, maxPrice: 75 } },
+  { label: '$75 - $100', filter: { minPrice: 75, maxPrice: 100 } },
+  { label: '$100 & Above', filter: { minPrice: 100 } },
+]
+
+const material = [
+  { label: 'Wood', filter: { material: 'wood' } },
+  { label: 'Steel', filter: { material: 'steel' } },
+  { label: 'Plastic', filter: { material: 'plastic' } },
+  { label: 'Fabric', filter: { material: 'fabric' } },
+]
+const furnitureType = [
+  { label: 'Table', filter: { furnitureType: 'table' } },
+  { label: 'Sofa', filter: { furnitureType: 'sofa' } },
+  { label: 'Chair', filter: { furnitureType: 'chair' } },
+  { label: 'Bed', filter: { furnitureType: 'bed' } },
+  { label: 'Desk', filter: { furnitureType: 'desk' } },
+  { label: 'Dressing Table', filter: { furnitureType: 'dressing table' } },
+  { label: 'Crib', filter: { furnitureType: 'crib' } },
+]
+
 function ProductsHome() {
+  const navigate = useNavigate();
+  const filterProducts = (e, value, filterType) => {
+    let filterTypeArray = [];
+    if (filterType === "price") {
+      filterTypeArray = price
+    } else if (filterType === "material") {
+      filterTypeArray = material
+    } else if (filterType === "furniture") {
+      filterTypeArray = furnitureType
+    }
+
+    e.preventDefault();
+    var filteredPrice = filterTypeArray.filter(function (el) {
+      return el.label === value
+    });
+
+    console.log(filteredPrice[0].filter)
+    const queryParams = new URLSearchParams(filteredPrice[0].filter).toString();
+    navigate(`/products?${queryParams}`);
+  }
+
   return (
     <div className='product-container'>
       <ProductsNavbar />
@@ -28,10 +73,10 @@ function ProductsHome() {
         <h2>Shop by Price</h2>
         <div className='category'>
           <Card className='product-card'>
-            <CardActionArea component={Link} to={`/products`}>
+            <CardActionArea component={Link} to={`/products`} onClick={(e) => filterProducts(e, "Under $50", "price")}>
               <CardMedia
                 component="img"
-                alt="furniture"
+                alt="Under 50"
                 className="category-card-media"
                 image={Image1}
                 title="Under 50$"
@@ -45,7 +90,7 @@ function ProductsHome() {
           </Card>
 
           <Card className='product-card'>
-            <CardActionArea component={Link} to={`/products`}>
+            <CardActionArea component={Link} to={`/products`} onClick={(e) => filterProducts(e, "$50 - $75", "price")}>
               <CardMedia
                 component="img"
                 alt="furniture"
@@ -62,7 +107,7 @@ function ProductsHome() {
           </Card>
 
           <Card className='product-card'>
-            <CardActionArea component={Link} to={`/products`}>
+            <CardActionArea component={Link} to={`/products`} onClick={(e) => filterProducts(e, "$75 - $100", "price")}>
               <CardMedia
                 component="img"
                 alt="furniture"
@@ -79,7 +124,7 @@ function ProductsHome() {
           </Card>
 
           <Card className='product-card'>
-            <CardActionArea component={Link} to={`/products`}>
+            <CardActionArea component={Link} to={`/products`} onClick={(e) => filterProducts(e, "$100 & Above", "price")}>
               <CardMedia
                 component="img"
                 alt="furniture"
@@ -99,7 +144,7 @@ function ProductsHome() {
         <h2>Shop by Material</h2>
         <div className='category'>
           <Card className='product-card'>
-            <CardActionArea component={Link} to={`/products`}>
+            <CardActionArea component={Link} to={`/products`} onClick={(e) => filterProducts(e, "Wood", "material")}>
               <CardMedia
                 component="img"
                 alt="furniture"
@@ -116,7 +161,7 @@ function ProductsHome() {
           </Card>
 
           <Card className='product-card'>
-            <CardActionArea component={Link} to={`/products`}>
+            <CardActionArea component={Link} to={`/products`} onClick={(e) => filterProducts(e, "Steel", "material")}>
               <CardMedia
                 component="img"
                 alt="furniture"
@@ -133,7 +178,7 @@ function ProductsHome() {
           </Card>
 
           <Card className='product-card'>
-            <CardActionArea component={Link} to={`/products`}>
+            <CardActionArea component={Link} to={`/products`} onClick={(e) => filterProducts(e, "Plastic", "material")}>
               <CardMedia
                 component="img"
                 alt="furniture"
@@ -150,7 +195,7 @@ function ProductsHome() {
           </Card>
 
           <Card className='product-card'>
-            <CardActionArea component={Link} to={`/products`}>
+            <CardActionArea component={Link} to={`/products`} onClick={(e) => filterProducts(e, "Fabric", "material")}>
               <CardMedia
                 component="img"
                 alt="furniture"
@@ -170,7 +215,7 @@ function ProductsHome() {
         <h2>Shop by Furniture Type</h2>
         <div className='category'>
           <Card className='product-card'>
-            <CardActionArea component={Link} to={`/products`}>
+            <CardActionArea component={Link} to={`/products`} onClick={(e) => filterProducts(e, "Table", "furniture")}>
               <CardMedia
                 component="img"
                 alt="furniture"
@@ -187,7 +232,7 @@ function ProductsHome() {
           </Card>
 
           <Card className='product-card'>
-            <CardActionArea component={Link} to={`/products`}>
+            <CardActionArea component={Link} to={`/products`} onClick={(e) => filterProducts(e, "Sofa", "furniture")}>
               <CardMedia
                 component="img"
                 alt="furniture"
@@ -204,7 +249,7 @@ function ProductsHome() {
           </Card>
 
           <Card className='product-card'>
-            <CardActionArea component={Link} to={`/products`}>
+            <CardActionArea component={Link} to={`/products`} onClick={(e) => filterProducts(e, "Chair", "furniture")}>
               <CardMedia
                 component="img"
                 alt="furniture"
@@ -221,7 +266,7 @@ function ProductsHome() {
           </Card>
 
           <Card className='product-card'>
-            <CardActionArea component={Link} to={`/products`}>
+            <CardActionArea component={Link} to={`/products`} onClick={(e) => filterProducts(e, "Bed", "furniture")}>
               <CardMedia
                 component="img"
                 alt="furniture"
@@ -238,7 +283,7 @@ function ProductsHome() {
           </Card>
 
           <Card className='product-card'>
-            <CardActionArea component={Link} to={`/products`}>
+            <CardActionArea component={Link} to={`/products`} onClick={(e) => filterProducts(e, "Desk", "furniture")}>
               <CardMedia
                 component="img"
                 alt="furniture"
@@ -255,7 +300,7 @@ function ProductsHome() {
           </Card>
 
           <Card className='product-card'>
-            <CardActionArea component={Link} to={`/products`}>
+            <CardActionArea component={Link} to={`/products`} onClick={(e) => filterProducts(e, "Dressing Table", "furniture")}>
               <CardMedia
                 component="img"
                 alt="furniture"
@@ -272,7 +317,7 @@ function ProductsHome() {
           </Card>
 
           <Card className='product-card'>
-            <CardActionArea component={Link} to={`/products`}>
+            <CardActionArea component={Link} to={`/products`} onClick={(e) => filterProducts(e, "Crib", "furniture")}>
               <CardMedia
                 component="img"
                 alt="furniture"

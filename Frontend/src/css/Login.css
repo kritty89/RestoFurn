@@ -20,3 +20,6 @@
   .login-button {
     margin-top: 20px;
   }
+  .login-tabs .MuiTabs-flexContainer {
+    justify-content: space-evenly;
+  }

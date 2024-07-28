@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
-import '../css/Products.css';
+import '../css/ProductDetail.css';
 import ProductsNavbar from '../components/ProductsNavbar';
 import apiService from '../components/apiService';
 import { useCart } from '../contexts/CartContext';
@@ -25,11 +25,15 @@ const ProductDetail = () => {
   return (
     <div>
       <ProductsNavbar />
-      <div>
+      <div className='product-detail'>
         <h1>{product.furnitureName}</h1>
-        <img src={product.image || 'default_image_path.jpg'} alt={product.furnitureName} />
+        <div className="image-container">
+          <img src={product.coverImage || 'default_image_path.jpg'} alt={product.furnitureName}/>
+        </div>
         <p>{product.description}</p>
-        <p>${product.price}</p>
+        <p>Price: ${product.price}</p>
+        <p>Material : {product.material}</p>
+        <p>Category : {product.furnitureType}</p>
         <button onClick={() => addToCart(product)}>Add to Cart</button>
       </div>
     </div>

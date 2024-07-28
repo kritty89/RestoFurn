@@ -13,7 +13,7 @@ const ProductCard = ({ product }) => {
             <CardMedia
                 component="img"
                 height="200"
-                image={product.image || Image1}
+                image={product.coverImage || Image1}
                 alt={product.furnitureName}
                 className="card-media-hover"
             />
