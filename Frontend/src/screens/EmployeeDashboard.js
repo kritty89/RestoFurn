@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { AppBar, Tabs, Tab, Box, TextField, Button, Table, TableBody, TableCell, TableHead, TableRow, IconButton, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import { Delete, Edit } from '@mui/icons-material';
 import apiService from '../components/apiService';
+import { useLocation } from 'react-router-dom';
 import '../css/EmployeeDashboard.css';  // Import the CSS file
 
 function TabPanel(props) {
@@ -25,6 +26,8 @@ function TabPanel(props) {
 }
 
 export default function EmployeeDashboard() {
+  const location = useLocation();
+  const { employee } = location.state || { employee: null };
   const [value, setValue] = useState(0);
   const [products, setProducts] = useState([]);
   const [formData, setFormData] = useState({ id: '', furnitureName: '', furnitureType: '', material: '', price: '', furnitureStatus: 'Received', inStock: 'y', coverImage: '', description: '' });
@@ -120,6 +123,7 @@ export default function EmployeeDashboard() {
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0} className="tab-panel">
+      {employee && <h3>Welcome, {employee.firstName}!</h3>}
         <form onSubmit={handleFormSubmit} className="form-container">
           <TextField
             label="Furniture Name"

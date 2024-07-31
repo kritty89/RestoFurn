@@ -1,22 +1,31 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { AppBar, Toolbar, Typography, Button, Box,Menu, MenuItem } from '@mui/material';
+import { AppBar, Toolbar, Typography, Button, Box, Menu, MenuItem } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { Home, Store, Add, Info, ShoppingCart } from '@mui/icons-material';
 import { Login, PersonAdd } from '@mui/icons-material';
 import Logo from '../assets/download.svg';
+import { useNavigate } from 'react-router-dom';
 
 function Navbar() {
-const [anchorEl, setAnchorEl] = useState(null);
-const location = useLocation();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { user } = location.state || { user: null };
 
-const handleClick = (event) => {
-  setAnchorEl(event.currentTarget);
-};
+  console.log(user)
 
-const handleClose = () => {
-  setAnchorEl(null);
-};
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleCart = () => {
+    navigate('/cart', { state: { user } });
+  }
 
   return (
     <AppBar position="static">
@@ -30,7 +39,7 @@ const handleClose = () => {
             Home
           </Button>
           <Button color="inherit" component={Link} to="/productshome" startIcon={<Store />}>
-            Products 
+            Products
           </Button>
           <Button color="inherit" component={Link} to="/donation" startIcon={<Add />}>
             Donate
@@ -42,18 +51,29 @@ const handleClose = () => {
             Account
           </Button>
           <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
-          <MenuItem component={Link} to="/login" onClick={handleClose}>
-            <Login style={{ marginRight: 8 }} /> Login
-          </MenuItem>
-          <MenuItem component={Link} to="/register" onClick={handleClose}>
-            <PersonAdd style={{ marginRight: 8 }} /> Register
-          </MenuItem>
+            {user ?
+              <div>
+                <MenuItem component={Link} to="/" onClick={handleClose}>
+                  <PersonAdd style={{ marginRight: 8 }} /> Logout
+                </MenuItem>
+              </div>
+              :
+              <div>
+                <MenuItem component={Link} to="/login" onClick={handleClose}>
+                  <Login style={{ marginRight: 8 }} /> Login
+                </MenuItem>
+                <MenuItem component={Link} to="/register" onClick={handleClose}>
+                  <PersonAdd style={{ marginRight: 8 }} /> Register
+                </MenuItem>
+              </div>
+            }
+
           </Menu>
           {location.pathname.includes('product') && (
-          <Button color="inherit" component={Link} to="/cart">
-            <ShoppingCart style={{ marginRight: 8 }} /> Cart
-          </Button>
-        )}
+            <Button color="inherit" onClick={handleCart}>
+              <ShoppingCart style={{ marginRight: 8 }} /> Cart
+            </Button>
+          )}
         </Box>
       </Toolbar>
     </AppBar>

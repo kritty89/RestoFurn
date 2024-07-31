@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Card, CardActionArea, CardMedia, CardContent, Typography } from '@mui/material';
 import ProductsNavbar from '../components/ProductsNavbar';
 import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 import Image1 from '../assets/product_category/wooden_chair.jpg';
 import Image2 from '../assets/product_category/table_chair2.jpg';
@@ -45,6 +46,8 @@ const furnitureType = [
 ]
 
 function ProductsHome() {
+  const location = useLocation();
+  const { user } = location.state || { user: null };
   const navigate = useNavigate();
   const filterProducts = (e, value, filterType) => {
     let filterTypeArray = [];
@@ -63,12 +66,13 @@ function ProductsHome() {
 
     console.log(filteredPrice[0].filter)
     const queryParams = new URLSearchParams(filteredPrice[0].filter).toString();
-    navigate(`/products?${queryParams}`);
+    navigate(`/products?${queryParams}`, { state: { user } });
   }
 
   return (
     <div className='product-container'>
       <ProductsNavbar />
+      {user && <h3>Welcome, {user.firstName}!</h3>}
       <div className='products'>
         <h2>Shop by Price</h2>
         <div className='category'>

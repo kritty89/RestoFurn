@@ -19,6 +19,7 @@ import Payment from './screens/Payment';
 
 
 const App = () => {
+
   return (
     <div className='main'>
       <CartProvider>

@@ -25,10 +25,11 @@ const CheckoutForm = () => {
 
   const createPaymentIntent = useCallback(async () => {
     try {
-      const response = await apiService.processPayment('/create-payment-intent', {
+      const response = await apiService.processPayment({
         amount: calculateTotalPrice() * 100,
       });
-      setClientSecret(response.data.clientSecret);
+      console.log(response.clientSecret);
+      setClientSecret(response.clientSecret);
     } catch (error) {
       console.error('Error creating payment intent:', error);
     }
@@ -41,6 +42,10 @@ const CheckoutForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setProcessing(true);
+
+    if (!stripe || !elements) {
+      return;
+    }
 
     const payload = await stripe.confirmCardPayment(clientSecret, {
       payment_method: {

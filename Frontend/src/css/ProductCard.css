@@ -11,3 +11,17 @@
     transform: scale(1.1);
     transition: transform 0.2s;
 }
+
+.css-iymoya-MuiPaper-root-MuiCard-root {
+    position: relative;
+    min-height:380px;
+}
+
+.css-1oitmrd-MuiButtonBase-root-MuiCardActionArea-root {
+    position: static !important;
+}
+
+.css-dnrpxu-MuiCardActions-root {
+    position: absolute;
+    bottom:5px;
+}

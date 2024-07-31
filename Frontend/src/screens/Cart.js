@@ -3,10 +3,14 @@ import { useCart } from '../contexts/CartContext';
 import { Button } from '@mui/material';
 import '../css/Cart.css';
 import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 const Cart = () => {
   const { cart, removeFromCart } = useCart();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  console.log(location);
 
   const handleRemove = (id) => {
     removeFromCart(id);

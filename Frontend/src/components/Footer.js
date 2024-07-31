@@ -27,30 +27,31 @@ function Footer() {
           </div>
           <div className="footer-section">
             <Typography variant="h6">Contact Us</Typography>
-            <Typography variant="body1">
-              <Email /> info@restofurn.com
-            </Typography>
-            <Typography variant="body1">
-              <Phone /> +1 (123) 456-7890
-            </Typography>
+            <div>
+              <Typography variant="body1">
+                <Email /> info@restofurn.com
+              </Typography>
+              <Typography variant="body1">
+                <Phone /> +1 (123) 456-7890
+              </Typography>
+            </div>
           </div>
           <div className="footer-section">
             <Typography variant="h6">Quick Links</Typography>
-            <Link href="/" color="inherit">
-              Home
-            </Link>
-            <br />
-            <Link href="/about" color="inherit">
-              About Us
-            </Link>
-            <br />
-            <Link href="/contact" color="inherit">
-              Contact
-            </Link>
-            <br />
-            <Link href="/privacy" color="inherit">
-              Privacy Policy
-            </Link>
+            <div className="quick-links">
+              <Link href="/" color="inherit">
+                Home
+              </Link>
+              <Link href="/about" color="inherit">
+                About Us
+              </Link>
+              <Link href="/contact" color="inherit">
+                Contact
+              </Link>
+              <Link href="/privacy" color="inherit">
+                Privacy Policy
+              </Link>
+            </div>
           </div>
         </div>
         <Typography variant="body2" color="white" align="center" className="footer-copyright">

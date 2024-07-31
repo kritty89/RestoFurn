@@ -13,10 +13,25 @@
   .footer-section {
     flex: 1;
     margin: 10px;
+    text-align: center;
+  }
+
+  .footer-section div {
+    display:inline-block;
   }
   
   .footer-section h6 {
     margin-bottom: 10px;
+  }
+
+  .footer-section p {
+    padding:5px;
+    gap:10px
+  }
+
+  .footer-section .quick-links a {
+    display:block;
+    padding:5px;
   }
   
   .social-icons {

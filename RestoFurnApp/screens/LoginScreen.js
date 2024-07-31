@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
@@ -13,7 +14,8 @@ const LoginScreen = () => {
     try {
       const response = await axios.post('http://localhost:8080/restofurn/elogin', { email, password });
       if (response.status === 200) {
-        navigation.navigate('Home');
+        const employee = response.data;
+        navigation.navigate('Home',  { employee });
       }
     } catch (error) {
       setError('Invalid email or password');

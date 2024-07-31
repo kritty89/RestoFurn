@@ -72,9 +72,9 @@ const apiService = {
         throw error;
       }
     },
-    processPayment:  async ({ url, data }) => {
+    processPayment: async ( data ) => {
       try {
-        const response = await axiosInstance.post(url, data);
+        const response = await axiosInstance.post('/create-payment-intent', data);
         return response.data;
       } catch (error) {
         throw error;

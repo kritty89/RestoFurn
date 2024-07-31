@@ -9,25 +9,26 @@ import com.sparkinnovators.RestoFurn.model.*;
 import com.sparkinnovators.RestoFurn.repository.DonationRepository;
 import com.sparkinnovators.RestoFurn.repository.ProductRepository;
 import com.sparkinnovators.RestoFurn.repository.UserRepository;
+import com.stripe.Stripe;
+import com.stripe.exception.StripeException;
 import com.stripe.model.Charge;
+import com.stripe.model.PaymentIntent;
+import com.stripe.param.PaymentIntentCreateParams;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping(value = "/restofurn")
-public class UserController {
+public class ProcessController {
     private final DonationRepository donationRepository;
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
@@ -39,9 +40,9 @@ public class UserController {
     private final Cloudinary cloudinary;
 
     @Autowired
-    public UserController(final DonationRepository donationRepository, UserRepository userRepository,
-                          ProductRepository productRepository, EmailService emailService, ProductService productService,
-                          EmployeeService employeeService, OrderService orderService, UserService userService, Cloudinary cloudinary) {
+    public ProcessController(final DonationRepository donationRepository, UserRepository userRepository,
+                             ProductRepository productRepository, EmailService emailService, ProductService productService,
+                             EmployeeService employeeService, OrderService orderService, UserService userService, Cloudinary cloudinary) {
         this.donationRepository = donationRepository;
         this.userRepository = userRepository;
         this.productRepository = productRepository;
@@ -52,6 +53,9 @@ public class UserController {
         this.userService = userService;
         this.cloudinary = cloudinary;
     }
+
+    @Value("${stripe.api.key}")
+    private String stripeApiKey;
 
     @PostMapping(value = "/donation")
     public ResponseEntity<String> processDonationDetail(@RequestBody final DonationRequest donationRequest) {
@@ -132,7 +136,6 @@ public class UserController {
         }
         System.out.println(" success " + pdList.size());
         return ResponseEntity.ok(pdList);
-
     }
 
     @PostMapping(value = "/productdetail/{id}")
@@ -146,18 +149,33 @@ public class UserController {
         return ResponseEntity.ok(products);
     }
     @PostMapping(value = "/elogin")
-    public ResponseEntity<String> employeeLogin(@RequestBody final EmployeeData employeeData) {
+    public ResponseEntity<?> employeeLogin(@RequestBody final EmployeeData employeeData) {
         System.out.println("employeeData :: " + employeeData.toString());
 
         if (employeeData != null) {
             System.out.println("employeeData :: " + employeeData.toString());
             Employee employee = employeeService.authenticate(employeeData.getEmail(), employeeData.getPassword());
             if (employee != null) {
-                return ResponseEntity.ok(employee.getFirstName());
+                return ResponseEntity.ok(employee);
             }
             return ResponseEntity.status(401).body("Invalid email or password");
         }
 
+        return ResponseEntity.ok("OK");
+    }
+
+    @PostMapping(value = "/login")
+    public ResponseEntity<?> userLogin(@RequestBody final UserData userData) {
+        System.out.println("userData :: " + userData.toString());
+
+        if (userData != null) {
+            System.out.println("userData :: " + userData.toString());
+            User user = userService.authenticate(userData.getEmail(), userData.getPassword());
+            if (user != null) {
+                return ResponseEntity.ok(user);
+            }
+            return ResponseEntity.status(401).body("Invalid email or password");
+        }
         return ResponseEntity.ok("OK");
     }
 
@@ -241,6 +259,28 @@ public class UserController {
             return ResponseEntity.ok(imageUrl);
         } catch (IOException e) {
             return ResponseEntity.status(500).body("Image upload failed: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/create-payment-intent")
+    public ResponseEntity<Map<String, String>> createPaymentIntent(@RequestBody Map<String, Object> request) {
+        Stripe.apiKey = stripeApiKey;
+
+        int amount = (int) request.get("amount");
+
+        PaymentIntentCreateParams params =
+                PaymentIntentCreateParams.builder()
+                        .setAmount((long) amount)
+                        .setCurrency("usd")
+                        .build();
+
+        try {
+            PaymentIntent intent = PaymentIntent.create(params);
+            Map<String, String> responseData = new HashMap<>();
+            responseData.put("clientSecret", intent.getClientSecret());
+            return ResponseEntity.ok(responseData);
+        } catch (StripeException e) {
+            return ResponseEntity.status(500).body(null);
         }
     }
 }

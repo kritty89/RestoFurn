@@ -1,8 +1,11 @@
 import React from 'react';
 import { AppBar, Toolbar, Typography, Button, Menu, MenuItem, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 const ProductsNavbar = () => {
+  const location = useLocation();
+  const { user } = location.state || { user: null };
   const [anchorEl, setAnchorEl] = React.useState({ material: null, price: null, furnitureType: null });
   const navigate = useNavigate();
 
@@ -59,7 +62,7 @@ const ProductsNavbar = () => {
           Shop By
         </Typography>
         <Box display="flex">
-          <Button color="inherit" onClick={() => navigate('/products')}>All Products</Button>
+          <Button color="inherit" onClick={() => navigate('/products', { state: { user } })}>All Products</Button>
           {Object.keys(menuItems).map((menuType) => (
             <React.Fragment key={menuType}>
               <Button

@@ -8,6 +8,7 @@ import '../css/Products.css';
 const Products = () => {
   const [products, setProducts] = useState([]);
   const location = useLocation();
+  const { user } = location.state || { user: null };
 
   const query = useMemo(() => new URLSearchParams(location.search), [location.search]);
 
@@ -40,9 +41,10 @@ const Products = () => {
     <div className="products-page">
       {!location.pathname.includes('productdetail') && <ProductsNavbar />}
       <div className="product-list">
+      {user && <h3>Welcome, {user.firstName}!</h3>}
         {products.length > 0 ? (
           products.map((product) => (
-            <ProductCard key={product.id} product={product} className='product-card' />
+            <ProductCard key={product.id} product={product} user={user} className='product-card' />
           ))
         ) : (
           <div>No products available</div>

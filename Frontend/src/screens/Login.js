@@ -21,9 +21,9 @@ const LoginPage = () => {
   const handleUserLoginSubmit = async (e) => {
     e.preventDefault();
     try {
-      const userData = await apiService.login(email, password);
-      console.log('User Login Successful:', userData);
-      navigate('/productshome');
+      const user = await apiService.login(email, password);
+      console.log('User Login Successful:', user);
+      navigate('/productshome', { state: { user } });
     } catch (error) {
       console.error('User Login Failed:', error);
       setError('User login failed. Please try again.');
@@ -33,9 +33,9 @@ const LoginPage = () => {
   const handleEmployeeLoginSubmit = async (e) => {
     e.preventDefault();
     try {
-      const employeeData = await apiService.employeeLogin(employeeEmail, employeePassword);
-      console.log('Employee Login Successful:', employeeData);
-      navigate('/employeedashboard');
+      const employee = await apiService.employeeLogin(employeeEmail, employeePassword);
+      console.log('Employee Login Successful:', employee);
+      navigate('/employeedashboard', { state: { employee } });
     } catch (error) {
       console.error('Employee Login Failed:', error);
       setError('Employee login failed. Please try again.');
