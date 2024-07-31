@@ -13,6 +13,7 @@ const LoginScreen = () => {
   const handleLogin = async () => {
     try {
       const response = await axios.post('http://localhost:8080/restofurn/elogin', { email, password });
+      console.log(response);
       if (response.status === 200) {
         const employee = response.data;
         navigation.navigate('Home',  { employee });

@@ -1,12 +1,13 @@
 .checkout-page {
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
-  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
 }
 
 .checkout-page h1 {
   font-size: 2.5rem;
+  color: #333;
   margin-bottom: 20px;
   text-align: center;
 }
@@ -14,17 +15,17 @@
 .checkout-item {
   display: flex;
   align-items: center;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  background-color: #f9f9f9;
+  padding: 15px;
 }
 
 .checkout-item-image {
-  width: 150px;
-  height: 150px;
-  object-fit: cover;
+  max-width: 150px;
+  height: auto;
+  border-radius: 8px;
   margin-right: 20px;
 }
 
@@ -34,24 +35,49 @@
 
 .checkout-item-details h2 {
   font-size: 1.5rem;
-  margin-bottom: 10px;
+  color: #333;
+  margin: 0 0 10px;
 }
 
 .checkout-item-details p {
-  margin-bottom: 5px;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
+  color: #666;
+  margin: 5px 0;
+}
+
+.checkout-item-details p:last-child {
+  font-weight: bold;
+  color: #007bff;
 }
 
 .checkout-total {
-  text-align: right;
-  margin-top: 20px;
+  margin-top: 30px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
 }
 
 .checkout-total h2 {
-  font-size: 1.5rem;
-  margin-bottom: 10px;
+  font-size: 1.8rem;
+  color: #333;
+  margin: 10px 0;
 }
 
-.checkout-total button {
+.checkout-total h2:first-child {
+  margin-top: 0;
+}
+
+.checkout-total .MuiButton-contained {
+  background-color: #007bff;
+  color: #fff;
+  font-size: 1.2rem;
+  padding: 10px 20px;
+  border-radius: 5px;
   margin-top: 20px;
+}
+
+.checkout-total .MuiButton-contained:hover {
+  background-color: #0056b3;
 }

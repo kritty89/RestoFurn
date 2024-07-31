@@ -74,10 +74,12 @@
 .sub-head {
   font-size: 26px;
   font-weight: bold;
+  color: black;
 }
 
 .sub-text {
   font-size: 22px;
+  color: black;
 }
 
 .working-box {
