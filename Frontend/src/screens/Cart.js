@@ -7,10 +7,9 @@ import { useLocation } from 'react-router-dom';
 
 const Cart = () => {
   const { cart, removeFromCart } = useCart();
-  const navigate = useNavigate();
   const location = useLocation();
-
-  console.log(location);
+  const { user } = location.state || { user: null };
+  const navigate = useNavigate();
 
   const handleRemove = (id) => {
     removeFromCart(id);
@@ -19,8 +18,9 @@ const Cart = () => {
   const calculateTotalPrice = () => {
     return cart.reduce((total, product) => total + product.price, 0).toFixed(2);
   };
+
   const handleCheckout = () => {
-    navigate('/checkout', { state: { cart } });
+    navigate('/checkout', { state: { cart, user } });
   };
 
   return (

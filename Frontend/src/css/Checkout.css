@@ -1,31 +1,69 @@
+/* Checkout.css */
+
 .checkout-page {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
   background-color: #f4f4f4;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .checkout-page h1 {
-  font-size: 2.5rem;
+  font-size: 2rem;
   color: #333;
   margin-bottom: 20px;
   text-align: center;
 }
 
-.checkout-item {
+.checkout-container {
   display: flex;
-  align-items: center;
+  justify-content: space-between;
+}
+
+.checkout-info {
+  flex: 1;
+  margin-right: 20px;
+}
+
+.billing-info, .shipping-info {
   background-color: #fff;
+  padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
-  padding: 15px;
+}
+
+.billing-info h2, .shipping-info h2 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.checkout-summary {
+  flex: 1;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.checkout-summary h2 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.checkout-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
 }
 
 .checkout-item-image {
-  max-width: 150px;
-  height: auto;
-  border-radius: 8px;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
   margin-right: 20px;
 }
 
@@ -33,51 +71,31 @@
   flex: 1;
 }
 
-.checkout-item-details h2 {
-  font-size: 1.5rem;
-  color: #333;
-  margin: 0 0 10px;
-}
-
-.checkout-item-details p {
-  font-size: 1.2rem;
-  color: #666;
-  margin: 5px 0;
-}
-
-.checkout-item-details p:last-child {
-  font-weight: bold;
-  color: #007bff;
-}
-
 .checkout-total {
-  margin-top: 30px;
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  text-align: center;
-}
-
-.checkout-total h2 {
-  font-size: 1.8rem;
-  color: #333;
-  margin: 10px 0;
-}
-
-.checkout-total h2:first-child {
-  margin-top: 0;
-}
-
-.checkout-total .MuiButton-contained {
-  background-color: #007bff;
-  color: #fff;
-  font-size: 1.2rem;
-  padding: 10px 20px;
-  border-radius: 5px;
   margin-top: 20px;
 }
 
-.checkout-total .MuiButton-contained:hover {
+.checkout-total h2 {
+  font-size: 1.25rem;
+  color: #333;
+}
+
+#submit {
+  background-color: #007bff;
+  color: #fff;
+  font-size: 1rem;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#submit:disabled {
+  background-color: #d6d6d6;
+  cursor: not-allowed;
+}
+
+#submit:hover:not(:disabled) {
   background-color: #0056b3;
 }

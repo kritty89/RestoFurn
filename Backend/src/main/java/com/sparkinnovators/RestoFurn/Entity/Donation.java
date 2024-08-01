@@ -21,6 +21,10 @@ public class Donation {
     private String streetAddress;
     @Column(name = "city", nullable = false)
     private String city;
+    @Column(name = "state", nullable = false)
+    private String state;
+    @Column(name = "country", nullable = false)
+    private String country;
     @Column(name = "postalCode", nullable = false)
     private String postalCode;
     @Column(name = "phoneNumber", nullable = false)
@@ -31,9 +35,9 @@ public class Donation {
     private Integer furnitureCount;
     @Column(name = "description", nullable = false)
     private String description;
-    @Column(name = "pickupDate")
-    private Date pickupDate;
-    @Column(name = "pickupTime")
-    private Date pickupTime;
+    @Column(name = "pickupDateTime")
+    private Date pickupDateTime;
+    @Column(name = "status")
+    private String status;
 }
 

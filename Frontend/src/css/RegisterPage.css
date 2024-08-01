@@ -1,18 +1,24 @@
 .register-container {
-    text-align: center;
-    padding: 20px;
-  }
-  
-  .register-title {
-    margin-bottom: 20px;
-  }
-  
-  .register-form {
-    max-width: 400px;
-    margin: 0 auto;
-  }
-  
-  .register-button {
-    margin-top: 20px;
-  }
-  
+  display: flex;
+  background-color: #fff;
+  flex-direction: column;
+  align-items: center;
+}
+
+.register-title {
+  text-align: center;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.register-form > * {
+  margin-bottom: 1rem;
+}
+
+.register-button {
+  margin-top: 1rem;
+}

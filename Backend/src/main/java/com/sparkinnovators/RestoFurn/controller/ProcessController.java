@@ -66,18 +66,17 @@ public class ProcessController {
             donationEntity.setStreetAddress(donationRequest.getStreetAddress());
             donationEntity.setCity(donationRequest.getCity());
             donationEntity.setPostalCode(donationRequest.getPostalCode());
-            donationEntity.setPhoneNumber(donationRequest.getContact());
-            donationEntity.setEmailId(donationRequest.getEmailId());
+            donationEntity.setPhoneNumber(donationRequest.getPhone());
+            donationEntity.setEmailId(donationRequest.getEmail());
             donationEntity.setFurnitureCount(donationRequest.getFurnitureCount());
             donationEntity.setDescription(donationRequest.getDescription());
-            donationEntity.setPickupDate(new Date());
-            donationEntity.setPickupTime(new Date());
+            donationEntity.setPickupDateTime(donationRequest.getPickupDateTime());
 
             donationRepository.save(donationEntity);
 
             String subject = "Donation Pickup Scheduled";
             String text = "Dear "+ donationEntity.getName() + ",\nThank you for your donation! Your pickup is scheduled for "
-                    + donationEntity.getPickupDate() + "\n Please find the details below: \n\n"
+                    + donationEntity.getPickupDateTime() + "\n Please find the details below: \n\n"
                     + "Name: "+ donationEntity.getName()+"\n"
                     + "Contact: +1 "+ donationEntity.getPhoneNumber()+"\n"
                     + "Furniture#: "+ donationEntity.getFurnitureCount()+"\n"
@@ -102,6 +101,12 @@ public class ProcessController {
             userEntity.setLastName(userRegistration.getLastName());
             userEntity.setEmail(userRegistration.getEmail());
             userEntity.setPassword(userRegistration.getPassword());
+            userEntity.setPhone(userRegistration.getPhone());
+            userEntity.setStreetAddress(userRegistration.getStreetAddress());
+            userEntity.setCity(userRegistration.getCity());
+            userEntity.setState(userRegistration.getState());
+            userEntity.setCountry(userRegistration.getCountry());
+            userEntity.setPostalCode(userRegistration.getPostalCode());
             userRepository.save(userEntity);
 
             List<Product> productList = (List<Product>) productRepository.findAll();
@@ -130,12 +135,66 @@ public class ProcessController {
                 pd.setInStock(p.getInStock());
                 pd.setCoverImage(p.getCoverImage());
                 pd.setDescription(p.getDescription());
+                pdList.add(pd);
+            }
+        }
+        System.out.println(" success " + pdList.size());
+        return ResponseEntity.ok(pdList);
+    }
+
+    @PostMapping(value = "/active-products")
+    public ResponseEntity<List<ProductDetail>> fetchActiveProduct() {
+        List<Product> productList = (List<Product>) productRepository.findProductsByInStock("y");
+        List<ProductDetail> pdList = new ArrayList<>();
+        if (!productList.isEmpty()) {
+
+            for (Product p : productList) {
+                ProductDetail pd = new ProductDetail();
+
+                pd.setId(p.getId());
+                pd.setFurnitureName(p.getFurnitureName());
+                pd.setFurnitureType(p.getFurnitureType());
+                pd.setMaterial(p.getMaterial());
+                pd.setPrice(p.getPrice());
+                pd.setFurnitureStatus(p.getFurnitureStatus());
+                pd.setInStock(p.getInStock());
+                pd.setCoverImage(p.getCoverImage());
+                pd.setDescription(p.getDescription());
 
                 pdList.add(pd);
             }
         }
         System.out.println(" success " + pdList.size());
         return ResponseEntity.ok(pdList);
+    }
+
+    @PostMapping(value = "/all-donations")
+    public ResponseEntity<List<DonationRequest>> fetchDonations() {
+        List<Donation> donationList = (List<Donation>) donationRepository.findAll();
+        List<DonationRequest> dList = new ArrayList<>();
+        if (!donationList.isEmpty()) {
+
+            for (Donation d : donationList) {
+                DonationRequest dr = new DonationRequest();
+
+                dr.setId(d.getId());
+                dr.setName(d.getName());
+                dr.setStreetAddress(d.getStreetAddress());
+                dr.setCity(d.getCity());
+                dr.setPostalCode(d.getPostalCode());
+                dr.setState(d.getState());
+                dr.setCountry(d.getCountry());
+                dr.setPhone(d.getPhoneNumber());
+                dr.setEmail(d.getEmailId());
+                dr.setFurnitureCount(d.getFurnitureCount());
+                dr.setDescription(d.getDescription());
+                dr.setPickupDateTime(d.getPickupDateTime());
+                dr.setStatus(d.getStatus());
+                dList.add(dr);
+            }
+        }
+        System.out.println(" success " + dList.size());
+        return ResponseEntity.ok(dList);
     }
 
     @PostMapping(value = "/productdetail/{id}")
@@ -237,18 +296,9 @@ public class ProcessController {
     }
 
     @PostMapping
-    public ResponseEntity<Order> createOrder(@RequestBody OrderRequest orderRequest) {
-        User user = userService.getUserById(orderRequest.getUserId());
-        Product product = productService.getProductById(orderRequest.getProductId());
-
-        Order order = new Order();
-        order.setUser(user);
-        order.setProduct(product);
-        order.setOrderDate(new Date());
-        order.setTotalPrice(product.getPrice());
-
-        Order savedOrder = orderService.saveOrder(order);
-        return ResponseEntity.ok(savedOrder);
+    public ResponseEntity<Order> createOrder(@RequestBody Order order, @RequestBody Transaction transaction) {
+        Order createdOrder = orderService.createOrderWithTransaction(order, transaction);
+        return ResponseEntity.ok(createdOrder);
     }
 
     @PostMapping("/upload-image")

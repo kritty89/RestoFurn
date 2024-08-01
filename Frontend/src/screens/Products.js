@@ -24,7 +24,7 @@ const Products = () => {
       if (filter.material || filter.minPrice || filter.maxPrice || filter.furnitureType) {
         response = await apiService.fetchFilteredProducts(filter);
       } else {
-        response = await apiService.fetchProducts();
+        response = await apiService.fetchActiveProducts();
       }
       setProducts(response);
     }
@@ -40,8 +40,8 @@ const Products = () => {
   return (
     <div className="products-page">
       {!location.pathname.includes('productdetail') && <ProductsNavbar />}
-      <div className="product-list">
       {user && <h3>Welcome, {user.firstName}!</h3>}
+      <div className="product-list">
         {products.length > 0 ? (
           products.map((product) => (
             <ProductCard key={product.id} product={product} user={user} className='product-card' />

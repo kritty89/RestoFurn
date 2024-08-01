@@ -32,6 +32,14 @@ const apiService = {
         throw error;
       }
     },
+    fetchActiveProducts: async () => {
+      try {
+        const response = await axiosInstance.post('/active-products');
+        return response.data;
+      } catch (error) {
+        throw error;
+      }
+    },
     fetchFilteredProducts: async (filter) => {
       try {
         const response = await axiosInstance.post('/filter', filter);

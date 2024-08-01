@@ -45,6 +45,7 @@ public class ProductService {
     public List<Product> getFilteredProducts(ProductFilter filter) {
         List<Product> products = productRepository.findAll();
         return products.stream()
+                .filter(p -> "y".equals(p.getInStock()))
                 .filter(p -> filter.getMaterial() == null || p.getMaterial().equals(filter.getMaterial()))
                 .filter(p -> filter.getMinPrice() == null || p.getPrice() >= filter.getMinPrice())
                 .filter(p -> filter.getMaxPrice() == null || p.getPrice() <= filter.getMaxPrice())

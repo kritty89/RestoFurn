@@ -25,4 +25,6 @@ public class Order {
     private Date orderDate;
     @Column(name = "totalPrice", nullable = false)
     private double totalPrice;
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+    private Transaction transaction;
 }

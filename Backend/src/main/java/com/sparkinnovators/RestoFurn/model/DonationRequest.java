@@ -8,16 +8,19 @@ import java.util.Date;
 @Setter
 @Getter
 public class DonationRequest {
+    private Long id;
     private String name;
     private String streetAddress;
     private String city;
     private String postalCode;
-    private Long contact;
-    private String emailId;
+    private String state;
+    private String country;
+    private Long phone;
+    private String email;
     private Integer furnitureCount;
     private String description;
     private Date pickupDateTime;
-//    private Date pickupTate;
+    private String status;
 
     @Override
     public String toString() {
@@ -26,8 +29,8 @@ public class DonationRequest {
                 ", streetAddress='" + streetAddress + '\'' +
                 ", city='" + city + '\'' +
                 ", postalCode='" + postalCode + '\'' +
-                ", contact=" + contact + '\'' +
-                ", email=" + emailId + '\'' +
+                ", phone=" + phone + '\'' +
+                ", email=" + email + '\'' +
                 ", furnitureCount=" + furnitureCount +'\'' +
                 ", description='" + description +
                 '}';

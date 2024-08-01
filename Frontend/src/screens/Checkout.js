@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Button, TextField } from '@mui/material';
 import '../css/Checkout.css';
 
 const Checkout = () => {
   const location = useLocation();
-  const { cart } = location.state || { cart: [] };
+  const { cart, user } = location.state || { cart: [], user: null };
   const navigate = useNavigate();
 
   const [shippingInfo, setShippingInfo] = useState({
@@ -16,6 +16,19 @@ const Checkout = () => {
     zip: '',
     country: '',
   });
+
+  useEffect(() => {
+    if (user) {
+      setShippingInfo({
+        name: `${user.firstName} ${user.lastName}`,
+        address: user.streetAddress,
+        city: user.city,
+        state: user.state,
+        zip: user.postalCode,
+        country: user.country,
+      });
+    }
+  }, [user]);
 
   const calculateTotalPrice = () => {
     return cart.reduce((total, product) => total + product.price, 0).toFixed(2);
@@ -30,12 +43,12 @@ const Checkout = () => {
   };
 
   const handlePayment = () => {
-    navigate('/payment', { state: { cart, shippingInfo } });
+    navigate('/payment', { state: { cart, shippingInfo, user } });
   };
 
-  const handleInputChange = (e, setInfo) => {
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setInfo(prevState => ({ ...prevState, [name]: value }));
+    setShippingInfo(prevState => ({ ...prevState, [name]: value }));
   };
 
   return (
@@ -44,57 +57,59 @@ const Checkout = () => {
       {cart.length === 0 ? (
         <p>Your cart is empty</p>
       ) : (
-        <div>
-          <div className="shipping-info">
-            <h2>Shipping Address</h2>
-            <TextField
-              label="Name"
-              name="name"
-              value={shippingInfo.name}
-              onChange={(e) => handleInputChange(e, setShippingInfo)}
-              fullWidth
-              margin="normal"
-            />
-            <TextField
-              label="Address"
-              name="address"
-              value={shippingInfo.address}
-              onChange={(e) => handleInputChange(e, setShippingInfo)}
-              fullWidth
-              margin="normal"
-            />
-            <TextField
-              label="City"
-              name="city"
-              value={shippingInfo.city}
-              onChange={(e) => handleInputChange(e, setShippingInfo)}
-              fullWidth
-              margin="normal"
-            />
-            <TextField
-              label="State"
-              name="state"
-              value={shippingInfo.state}
-              onChange={(e) => handleInputChange(e, setShippingInfo)}
-              fullWidth
-              margin="normal"
-            />
-            <TextField
-              label="ZIP Code"
-              name="zip"
-              value={shippingInfo.zip}
-              onChange={(e) => handleInputChange(e, setShippingInfo)}
-              fullWidth
-              margin="normal"
-            />
-            <TextField
-              label="Country"
-              name="country"
-              value={shippingInfo.country}
-              onChange={(e) => handleInputChange(e, setShippingInfo)}
-              fullWidth
-              margin="normal"
-            />
+        <div className="checkout-container">
+          <div className="checkout-info">
+            <div className="shipping-info">
+              <h2>Shipping Address</h2>
+              <TextField
+                label="Name"
+                name="name"
+                value={shippingInfo.name}
+                onChange={handleInputChange}
+                fullWidth
+                margin="normal"
+              />
+              <TextField
+                label="Address"
+                name="address"
+                value={shippingInfo.address}
+                onChange={handleInputChange}
+                fullWidth
+                margin="normal"
+              />
+              <TextField
+                label="City"
+                name="city"
+                value={shippingInfo.city}
+                onChange={handleInputChange}
+                fullWidth
+                margin="normal"
+              />
+              <TextField
+                label="State"
+                name="state"
+                value={shippingInfo.state}
+                onChange={handleInputChange}
+                fullWidth
+                margin="normal"
+              />
+              <TextField
+                label="ZIP Code"
+                name="zip"
+                value={shippingInfo.zip}
+                onChange={handleInputChange}
+                fullWidth
+                margin="normal"
+              />
+              <TextField
+                label="Country"
+                name="country"
+                value={shippingInfo.country}
+                onChange={handleInputChange}
+                fullWidth
+                margin="normal"
+              />
+            </div>
           </div>
 
           <div className="checkout-summary">
@@ -125,3 +140,4 @@ const Checkout = () => {
 };
 
 export default Checkout;
+

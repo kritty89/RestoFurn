@@ -1,44 +1,105 @@
-import React, { useState } from 'react';
-import { Container, TextField, Button, Typography, Box } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+import { Container, TextField, Button, Typography, Box, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import { LocalizationProvider, DateTimePicker } from '@mui/x-date-pickers';
-import apiService from '../components/apiService';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
+import apiService from '../components/apiService';
 import '../css/Donation.css';
 import FormatQuoteIcon from '@mui/icons-material/FormatQuote';
 
 const Donation = () => {
+  const location = useLocation();
+  const { user } = location.state || { user: null };
+
   const [formData, setFormData] = useState({
-    name: '',
-    streetAddress: '',
-    city: '',
-    postalCode: '',
-    contact: '',
-    emailId: '',
+    name: user ? user.firstName : '',
+    streetAddress: user ? user.streetAddress : '',
+    city: user ? user.city : '',
+    postalCode: user ? user.postalCode : '',
+    phone: user ? user.phone : '',
+    email: user ? user.email : '',
     pickupDateTime: new Date(),
     description: '',
     furnitureCount: '',
-    images: null,
   });
+
+  useEffect(() => {
+    if (user) {
+      setFormData({
+        name: user.firstName + ' ' + user.lastName,
+        streetAddress: user.streetAddress,
+        city: user.city,
+        postalCode: user.postalCode,
+        phone: user.phone,
+        email: user.email,
+        pickupDateTime: new Date(),
+        description: '',
+        furnitureCount: '',
+      });
+    }
+  }, [user]);
+
+  const [errors, setErrors] = useState({});
+  const [open, setOpen] = useState(false);
+
+  const validate = () => {
+    const newErrors = {};
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^\d{10}$/;
+
+    if (!formData.name) newErrors.name = 'Name is required';
+    if (!formData.streetAddress) newErrors.streetAddress = 'Street Address is required';
+    if (!formData.city) newErrors.city = 'City is required';
+    if (!formData.postalCode) newErrors.postalCode = 'Postal Code is required';
+    if (!formData.phone) {
+      newErrors.phone = 'Contact is required';
+    } else if (!phoneRegex.test(formData.phone)) {
+      newErrors.phone = 'Invalid phone number. Must be 10 digits';
+    }
+    if (!formData.email) {
+      newErrors.email = 'Email Id is required';
+    } else if (!emailRegex.test(formData.email)) {
+      newErrors.email = 'Invalid email format';
+    }
+    if (!formData.furnitureCount) newErrors.furnitureCount = 'Furniture Count is required';
+    if (!formData.description) newErrors.description = 'Description is required';
+
+    const now = new Date();
+    if (formData.pickupDateTime <= now) newErrors.pickupDateTime = 'Pickup Date must be in the future';
+    const pickupHour = formData.pickupDateTime.getHours();
+    if (pickupHour < 8 || pickupHour > 17) newErrors.pickupDateTime = 'Pickup time must be between 8 AM and 5 PM';
+
+    return newErrors;
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
-  const [selectedDate, setSelectedDate] = React.useState(new Date());
 
   const handleDateChange = (date) => {
-    setFormData({ ...formData, pickupDate: date });
-    setSelectedDate(date)
+    setFormData({ ...formData, pickupDateTime: date });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const validationErrors = validate();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+
     try {
       const response = await apiService.donate(formData);
-      console.log('Sucessful Donation:', response);
+      console.log('Successful Donation:', response);
+      setOpen(true);
     } catch (error) {
       console.error('Donation failed:', error);
     }
+  };
+
+  const handleClose = () => {
+    setOpen(false);
   };
 
   return (
@@ -66,7 +127,8 @@ const Donation = () => {
               onChange={handleChange}
               variant="outlined"
               required
-              type="text"
+              error={!!errors.name}
+              helperText={errors.name}
               className="form-input"
             />
             <TextField
@@ -77,7 +139,8 @@ const Donation = () => {
               onChange={handleChange}
               variant="outlined"
               required
-              type="text"
+              error={!!errors.streetAddress}
+              helperText={errors.streetAddress}
               className="form-input"
             />
             <TextField
@@ -88,7 +151,8 @@ const Donation = () => {
               onChange={handleChange}
               variant="outlined"
               required
-              type="text"
+              error={!!errors.city}
+              helperText={errors.city}
               className="form-input"
             />
             <TextField
@@ -99,28 +163,33 @@ const Donation = () => {
               onChange={handleChange}
               variant="outlined"
               required
-              type="text"
+              error={!!errors.postalCode}
+              helperText={errors.postalCode}
               className="form-input"
             />
             <TextField
               fullWidth
               label="Contact"
-              name="contact"
-              value={formData.contact}
+              name="phone"
+              value={formData.phone}
               onChange={handleChange}
               variant="outlined"
               required
+              error={!!errors.phone}
+              helperText={errors.phone}
               type="tel"
               className="form-input"
             />
             <TextField
               fullWidth
               label="Email Id"
-              name="emailId"
-              value={formData.emailId}
+              name="email"
+              value={formData.email}
               onChange={handleChange}
               variant="outlined"
               required
+              error={!!errors.email}
+              helperText={errors.email}
               type="email"
               className="form-input"
             />
@@ -132,6 +201,8 @@ const Donation = () => {
               onChange={handleChange}
               variant="outlined"
               required
+              error={!!errors.furnitureCount}
+              helperText={errors.furnitureCount}
               className="form-input"
             />
             <TextField
@@ -144,16 +215,20 @@ const Donation = () => {
               multiline
               rows={4}
               required
+              error={!!errors.description}
+              helperText={errors.description}
               className="form-input"
             />
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <DateTimePicker
-                background color="white"
                 label="Pickup Date Time"
-                value={selectedDate}
-                // required
+                value={formData.pickupDateTime}
                 onChange={handleDateChange}
                 renderInput={(params) => <TextField {...params} fullWidth variant="outlined" required className="form-input" />}
+                minDate={new Date()}
+                minTime={new Date().setHours(8, 0)}
+                maxTime={new Date().setHours(17, 0)}
+                ampm={false}  // 24-hour format
               />
             </LocalizationProvider>
             <Box className="form-button">
@@ -164,6 +239,19 @@ const Donation = () => {
           </form>
         </Box>
       </Container>
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Donation Successful</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Thank you for your donation! Your request has been successfully submitted.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };

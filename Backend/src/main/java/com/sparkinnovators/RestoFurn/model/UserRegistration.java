@@ -9,8 +9,13 @@ public class UserRegistration {
     private String firstName;
     private String lastName;
     private String email;
-    private String phone;
+    private Long phone;
     private String password;
+    private String city;
+    private String streetAddress;
+    private String state;
+    private String country;
+    private String postalCode;
 
     @Override
     public String toString() {

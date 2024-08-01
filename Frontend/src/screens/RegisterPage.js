@@ -6,13 +6,36 @@ import '../css/RegisterPage.css';
 import apiService from '../components/apiService';
 
 const RegisterPage = () => {
-  const [formData, setFormData] = useState({ firstName: '', lastName: '', email: '', password: '', confirmPassword: '', });
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    phone: '',
+    city: '',
+    postalCode: '',
+    streetAddress: '',
+    country: '',
+    state: '',
+  });
   const navigate = useNavigate();
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+  };
+
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const validatePhone = (phone) => {
+    const phoneRegex = /^[0-9]{10}$/;
+    return phoneRegex.test(phone);
   };
 
   const handleSubmit = async (e) => {
@@ -20,6 +43,19 @@ const RegisterPage = () => {
 
     if (formData.password !== formData.confirmPassword) {
       setError('Passwords do not match');
+      setSuccess('');
+      return;
+    }
+
+    if (!validateEmail(formData.email)) {
+      setError('Invalid email address');
+      setSuccess('');
+      return;
+    }
+
+    if (!validatePhone(formData.phone)) {
+      setError('Invalid phone number. It should contain 10 digits.');
+      setSuccess('');
       return;
     }
 
@@ -29,12 +65,21 @@ const RegisterPage = () => {
         lastName: formData.lastName,
         email: formData.email,
         password: formData.password,
+        phone: formData.phone,
+        city: formData.city,
+        postalCode: formData.postalCode,
+        streetAddress: formData.streetAddress,
+        country: formData.country,
+        state: formData.state,
       });
       console.log(response.data);
-      navigate('/login');
+      setSuccess('Registration successful! Redirecting to login...');
+      setError('');
+      setTimeout(() => navigate('/login'), 3000);
     } catch (error) {
       console.error(error);
       setError('Registration failed. Please try again.');
+      setSuccess('');
     }
   };
 
@@ -45,8 +90,9 @@ const RegisterPage = () => {
           Register
         </Typography>
         {error && <Typography color="error">{error}</Typography>}
+        {success && <Typography color="primary">{success}</Typography>}
         <form onSubmit={handleSubmit} className="register-form">
-        <TextField
+          <TextField
             variant="outlined"
             required
             fullWidth
@@ -83,6 +129,72 @@ const RegisterPage = () => {
             variant="outlined"
             required
             fullWidth
+            name="phone"
+            label="Phone Number"
+            type="text"
+            id="phone"
+            value={formData.phone}
+            onChange={handleChange}
+          />
+          <TextField
+            variant="outlined"
+            required
+            fullWidth
+            name="streetAddress"
+            label="Street Address"
+            type="text"
+            id="streetAddress"
+            value={formData.streetAddress}
+            onChange={handleChange}
+          />
+          <TextField
+            variant="outlined"
+            required
+            fullWidth
+            name="city"
+            label="City"
+            type="text"
+            id="city"
+            value={formData.city}
+            onChange={handleChange}
+          />
+          <TextField
+            variant="outlined"
+            required
+            fullWidth
+            name="postalCode"
+            label="Postal Code"
+            type="text"
+            id="postalCode"
+            value={formData.postalCode}
+            onChange={handleChange}
+          />
+          <TextField
+            variant="outlined"
+            required
+            fullWidth
+            name="state"
+            label="State"
+            type="text"
+            id="state"
+            value={formData.state}
+            onChange={handleChange}
+          />
+          <TextField
+            variant="outlined"
+            required
+            fullWidth
+            name="country"
+            label="Country"
+            type="text"
+            id="country"
+            value={formData.country}
+            onChange={handleChange}
+          />
+          <TextField
+            variant="outlined"
+            required
+            fullWidth
             name="password"
             label="Password"
             type="password"
@@ -101,6 +213,7 @@ const RegisterPage = () => {
             value={formData.confirmPassword}
             onChange={handleChange}
           />
+
           <Box mt={2}>
             <Button variant="contained" color="primary" type="submit" fullWidth className="register-button">
               Register

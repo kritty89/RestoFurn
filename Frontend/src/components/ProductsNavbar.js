@@ -19,7 +19,7 @@ const ProductsNavbar = () => {
 
   const handleFilter = (filter) => {
     const queryParams = new URLSearchParams(filter).toString();
-    navigate(`/products?${queryParams}`);
+    navigate(`/products?${queryParams}`,  { state: { user } });
     setAnchorEl({ material: null, price: null, furnitureType: null });
   };
 
