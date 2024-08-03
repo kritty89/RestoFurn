@@ -30,5 +30,5 @@ public class Product {
     @Column(name = "description")
     private String description;
     @OneToMany(mappedBy = "product")
-    private List<Order> orders;
+    private List<OrderItem> orderItems;
 }

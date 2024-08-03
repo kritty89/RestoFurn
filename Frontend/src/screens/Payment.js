@@ -3,8 +3,8 @@ import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import { useLocation, useNavigate } from 'react-router-dom';
-import '../css/Payment.css';
 import apiService from '../components/apiService';
+import '../css/Payment.css';
 
 const stripePromise = loadStripe('pk_test_51PfVMmRrfzZH74Qfoz5UH6b8z4pbI3eIblaOniPdhmpvNGY4ljFHGCmFeq2a6W6WNuouV1uypvOizsZOeJYzfWDL00wJA4V0pN');
 
@@ -13,7 +13,7 @@ const CheckoutForm = () => {
   const elements = useElements();
   const location = useLocation();
   const navigate = useNavigate();
-  const { cart } = location.state || { cart: [] };
+  const { cart, user } = location.state || { cart: [], user: null };
   const [error, setError] = useState(null);
   const [processing, setProcessing] = useState(false);
   const [succeeded, setSucceeded] = useState(false);
@@ -28,7 +28,6 @@ const CheckoutForm = () => {
       const response = await apiService.processPayment({
         amount: calculateTotalPrice() * 100,
       });
-      console.log(response.clientSecret);
       setClientSecret(response.clientSecret);
     } catch (error) {
       console.error('Error creating payment intent:', error);
@@ -47,20 +46,40 @@ const CheckoutForm = () => {
       return;
     }
 
-    const payload = await stripe.confirmCardPayment(clientSecret, {
+    const { error: stripeError, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
       payment_method: {
         card: elements.getElement(CardElement),
       },
     });
 
-    if (payload.error) {
-      setError(`Payment failed: ${payload.error.message}`);
+    if (stripeError) {
+      setError(`Payment failed: ${stripeError.message}`);
       setProcessing(false);
     } else {
       setError(null);
       setProcessing(false);
       setSucceeded(true);
-      navigate('/confirmation');
+
+      try {
+        await apiService.createOrder( {orderRequest: {
+          orderItems: cart.map(product => ({
+            product: product,
+            quantity: 1,
+          })),
+          transaction: {
+            amount: paymentIntent.amount / 100,
+            status: paymentIntent.status,
+            transactionDate: new Date(),
+          },
+        },
+        userData: {
+          user: user,
+        }
+      });
+        navigate('/confirmation');
+      } catch (error) {
+        console.error('Error creating order and transaction:', error);
+      }
     }
   };
 

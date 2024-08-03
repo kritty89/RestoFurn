@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { Container, TextField, Button, Typography, Box, Tabs, Tab } from '@mui/material';
 import apiService from '../components/apiService';
 import '../css/App.css';
@@ -13,6 +13,8 @@ const LoginPage = () => {
   const [tab, setTab] = useState(0);
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || '/';
 
   const handleTabChange = (event, newValue) => {
     setTab(newValue);
@@ -23,7 +25,7 @@ const LoginPage = () => {
     try {
       const user = await apiService.login(email, password);
       console.log('User Login Successful:', user);
-      navigate('/productshome', { state: { user } });
+      navigate(from, { state: { user } });
     } catch (error) {
       console.error('User Login Failed:', error);
       setError('User login failed. Please try again.');
@@ -49,7 +51,7 @@ const LoginPage = () => {
           Login
         </Typography>
         {error && <Typography color="error">{error}</Typography>}
-        <Tabs value={tab} onChange={handleTabChange} aria-label="login tabs"className='login-tabs'>
+        <Tabs value={tab} onChange={handleTabChange} aria-label="login tabs" className="login-tabs">
           <Tab label="User Login" />
           <Tab label="Employee Login" />
         </Tabs>
@@ -91,7 +93,6 @@ const LoginPage = () => {
               </Typography>
             </Box>
           </form>
-
         )}
         {tab === 1 && (
           <form onSubmit={handleEmployeeLoginSubmit} className="login-form">

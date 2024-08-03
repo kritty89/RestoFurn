@@ -1,13 +1,65 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8080/restofurn';
-
+const BASE_URL = 'http://localhost:8080/restofurn';
+const axiosInstance = axios.create({
+  baseURL: BASE_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
 const apiService = {
-  fetchProducts: () => axios.get(`${API_URL}/products`),
-  fetchFilteredProducts: (filter) => axios.get(`${API_URL}/products`, { params: filter }),
-  createProduct: (product) => axios.post(`${API_URL}/products`, product),
-  updateProduct: (id, product) => axios.put(`${API_URL}/products/${id}`, product),
-  deleteProduct: (id) => axios.delete(`${API_URL}/products/${id}`),
+  employeeLogin: async (email, password) => {
+    try {
+      const response = await axiosInstance.post('/elogin', { email, password });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+  createProduct: async (productData) => {
+    try {
+      const response = await axiosInstance.post('/product', productData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+  updateProduct: async (id, productData) => {
+    try {
+      const response = await axiosInstance.put(`/product/${id}`, productData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+  uploadImage: async (formData) => {
+    const response = await axiosInstance.post('/upload-image', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data;
+  },
+  deleteProduct: async (id) => {
+    try {
+      const response = await axiosInstance.delete(`/product/${id}`);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
 };
 
 export default apiService;

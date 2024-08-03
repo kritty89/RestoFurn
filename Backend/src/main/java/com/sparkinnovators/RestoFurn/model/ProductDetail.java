@@ -1,6 +1,4 @@
 package com.sparkinnovators.RestoFurn.model;
-
-import jakarta.persistence.Column;
 import lombok.Getter;
 import lombok.Setter;
 

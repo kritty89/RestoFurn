@@ -91,3 +91,64 @@
   width: 3em;
   height: 3em;
 }
+
+/* Our Impact */
+.our-impact {
+  text-align: center;
+  margin: 40px 0;
+}
+
+.our-impact p {
+  font-size: 18px;
+  color: black;
+  line-height: 1.6;
+  margin: 10px 0;
+}
+
+/* Get Involved */
+.get-involved {
+  text-align: center;
+  margin: 40px 0;
+}
+
+.get-involved p {
+  font-size: 18px;
+  color: black;
+  line-height: 1.6;
+  margin: 10px 0;
+}
+
+/* Testimonials */
+.testimonial-container {
+  text-align: center;
+  margin: 40px 0;
+}
+
+.testimonial {
+  font-size: 1.2rem;
+  color: black;
+  line-height: 1.6;
+  margin: 10px 0;
+}
+
+/* Recycling Benefits */
+.recycling-title {
+  font-size: 2rem;
+  color: black;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.recycling-list {
+  list-style-type: disc;
+  padding-left: 20px;
+  text-align: left;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.recycling-list li {
+  font-size: 18px;
+  color: black;
+  margin-bottom: 10px;
+}

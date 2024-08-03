@@ -38,11 +38,13 @@ public class ProcessController {
     private final OrderService orderService;
     private final UserService userService;
     private final Cloudinary cloudinary;
+    private final DonationService donationService;
 
     @Autowired
     public ProcessController(final DonationRepository donationRepository, UserRepository userRepository,
                              ProductRepository productRepository, EmailService emailService, ProductService productService,
-                             EmployeeService employeeService, OrderService orderService, UserService userService, Cloudinary cloudinary) {
+                             EmployeeService employeeService, OrderService orderService, UserService userService, Cloudinary cloudinary,
+                            DonationService donationService) {
         this.donationRepository = donationRepository;
         this.userRepository = userRepository;
         this.productRepository = productRepository;
@@ -52,6 +54,7 @@ public class ProcessController {
         this.orderService = orderService;
         this.userService = userService;
         this.cloudinary = cloudinary;
+        this.donationService = donationService;
     }
 
     @Value("${stripe.api.key}")
@@ -66,6 +69,8 @@ public class ProcessController {
             donationEntity.setStreetAddress(donationRequest.getStreetAddress());
             donationEntity.setCity(donationRequest.getCity());
             donationEntity.setPostalCode(donationRequest.getPostalCode());
+            donationEntity.setState(donationRequest.getState());
+            donationEntity.setCountry(donationRequest.getCountry());
             donationEntity.setPhoneNumber(donationRequest.getPhone());
             donationEntity.setEmailId(donationRequest.getEmail());
             donationEntity.setFurnitureCount(donationRequest.getFurnitureCount());
@@ -295,11 +300,28 @@ public class ProcessController {
         return ResponseEntity.ok("Product deleted successfully!");
     }
 
-    @PostMapping
-    public ResponseEntity<Order> createOrder(@RequestBody Order order, @RequestBody Transaction transaction) {
-        Order createdOrder = orderService.createOrderWithTransaction(order, transaction);
+    @PostMapping("/order")
+    public ResponseEntity<Order> createOrder(@RequestBody OrderRequest orderRequest, @RequestBody UserData userData) {
+        Double paymentAmount = orderRequest.getTransaction().getAmount();
+        String subject = "Invoice for your purchase";
+        String text = "Dear "+ userData.getFirstName() + ",\nThank you for the purchase! Please find the invoice detail below "
+                + "\n\n"
+                + "Name: "+ userData.getFirstName()+" "+userData.getLastName()+"\n"
+                + "Contact: +1 "+ userData.getPhone()+"\n"
+                + "Shipping Address: "+ userData.getStreetAddress()+", "+userData.getCity()+" - "+userData.getPostalCode()+
+                "Total Cost: $"+ paymentAmount+ "\n"
+                +"\n\n\nThis is an auto generated email. Please do not reply to this email. In case of enquiries please contact our customer support" +
+                "@ +1 123 456 7890";
+        System.out.println(text);
+        emailService.sendSimpleMessage(userData.getEmail(), subject, text);
+
+
+        Order createdOrder = orderService.createOrderWithTransaction(orderRequest, userData);
+
+
         return ResponseEntity.ok(createdOrder);
     }
+
 
     @PostMapping("/upload-image")
     public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file) {
@@ -331,6 +353,24 @@ public class ProcessController {
             return ResponseEntity.ok(responseData);
         } catch (StripeException e) {
             return ResponseEntity.status(500).body(null);
+        }
+    }
+    @PutMapping("/donation/{id}")
+    public ResponseEntity<Donation> updateDonation(@PathVariable Long id, @RequestBody DonationRequest donationDetails) {
+        try {
+            Donation updatedDonation = donationService.updateDonation(id, donationDetails);
+            return ResponseEntity.ok(updatedDonation);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    @DeleteMapping("/donation/{id}")
+    public ResponseEntity<Void> deleteDonation(@PathVariable Long id) {
+        try {
+            donationService.deleteDonation(id);
+            return ResponseEntity.noContent().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
         }
     }
 }

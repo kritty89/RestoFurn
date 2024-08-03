@@ -16,6 +16,8 @@ const Donation = () => {
     streetAddress: user ? user.streetAddress : '',
     city: user ? user.city : '',
     postalCode: user ? user.postalCode : '',
+    state: user ? user.state : '',
+    country: user ? user.country : '',
     phone: user ? user.phone : '',
     email: user ? user.email : '',
     pickupDateTime: new Date(),
@@ -30,6 +32,8 @@ const Donation = () => {
         streetAddress: user.streetAddress,
         city: user.city,
         postalCode: user.postalCode,
+        state: user.state,
+        country: user.country,
         phone: user.phone,
         email: user.email,
         pickupDateTime: new Date(),
@@ -165,6 +169,30 @@ const Donation = () => {
               required
               error={!!errors.postalCode}
               helperText={errors.postalCode}
+              className="form-input"
+            />
+            <TextField
+              fullWidth
+              label="Province"
+              name="state"
+              value={formData.state}
+              onChange={handleChange}
+              variant="outlined"
+              required
+              error={!!errors.state}
+              helperText={errors.state}
+              className="form-input"
+            />
+            <TextField
+              fullWidth
+              label="Country"
+              name="country"
+              value={formData.country}
+              onChange={handleChange}
+              variant="outlined"
+              required
+              error={!!errors.country}
+              helperText={errors.country}
               className="form-input"
             />
             <TextField

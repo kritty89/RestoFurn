@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { Snackbar } from '@mui/material';
 import '../css/ProductDetail.css';
 import ProductsNavbar from '../components/ProductsNavbar';
 import apiService from '../components/apiService';
@@ -9,6 +10,7 @@ import Products from './Products';
 const ProductDetail = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
   const { addToCart } = useCart();
 
   useEffect(() => {
@@ -18,6 +20,15 @@ const ProductDetail = () => {
     };
     fetchProduct();
   }, [id]);
+
+  const handleAddToCart = () => {
+    addToCart(product);
+    setOpenSnackbar(true);
+  };
+
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
+  };
 
   if (!product) {
     return <div>Loading...</div>;
@@ -33,12 +44,18 @@ const ProductDetail = () => {
         </div>
         <p>{product.description}</p>
         <p>Price: ${product.price}</p>
-        <p>Material : {product.material}</p>
-        <p>Category : {product.furnitureType}</p>
-        <button onClick={() => addToCart(product)}>Add to Cart</button>
+        <p>Material: {product.material}</p>
+        <p>Category: {product.furnitureType}</p>
+        <button onClick={handleAddToCart}>Add to Cart</button>
       </div>
-<h2> Check other products from us!</h2>
-<Products />
+      <h2>Check other products from us!</h2>
+      <Products />
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={1500}
+        onClose={handleCloseSnackbar}
+        message="Added to cart successfully"
+      />
     </div>
   );
 };

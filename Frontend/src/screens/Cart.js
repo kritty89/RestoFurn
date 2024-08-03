@@ -1,15 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useCart } from '../contexts/CartContext';
 import { Button } from '@mui/material';
 import '../css/Cart.css';
-import { useNavigate } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const Cart = () => {
   const { cart, removeFromCart } = useCart();
   const location = useLocation();
   const { user } = location.state || { user: null };
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!user) {
+      navigate('/login', { state: { from: location } });
+    }
+  }, [user, navigate, location]);
 
   const handleRemove = (id) => {
     removeFromCart(id);
@@ -22,6 +27,10 @@ const Cart = () => {
   const handleCheckout = () => {
     navigate('/checkout', { state: { cart, user } });
   };
+
+  if (!user) {
+    return <p>Redirecting to login...</p>;
+  }
 
   return (
     <div className="cart-page">

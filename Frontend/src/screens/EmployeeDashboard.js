@@ -3,7 +3,7 @@ import { AppBar, Tabs, Tab, Box, TextField, Button, Table, TableBody, TableCell,
 import { Delete, Edit } from '@mui/icons-material';
 import apiService from '../components/apiService';
 import { useLocation } from 'react-router-dom';
-import '../css/EmployeeDashboard.css';  // Import the CSS file
+import '../css/EmployeeDashboard.css';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -30,11 +30,14 @@ export default function EmployeeDashboard() {
   const { employee } = location.state || { employee: null };
   const [value, setValue] = useState(0);
   const [products, setProducts] = useState([]);
+  const [donations, setDonations] = useState([]);
   const [formData, setFormData] = useState({ id: '', furnitureName: '', furnitureType: '', material: '', price: '', furnitureStatus: 'Received', inStock: 'y', coverImage: '', description: '' });
+  const [donationFormData, setDonationFormData] = useState({ id: '', name: '', pickupDateTime: '', email: '', furnitureCount: '', status: 'Pending' });
   const [selectedFile, setSelectedFile] = useState(null);
 
   useEffect(() => {
     fetchProducts();
+    fetchDonations();
   }, []);
 
   const handleChange = (event, newValue) => {
@@ -50,9 +53,23 @@ export default function EmployeeDashboard() {
     }
   };
 
+  const fetchDonations = async () => {
+    try {
+      const response = await apiService.fetchDonations();
+      setDonations(response);
+    } catch (error) {
+      console.error("Error fetching donations:", error);
+    }
+  };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+  };
+
+  const handleDonationInputChange = (e) => {
+    const { name, value } = e.target;
+    setDonationFormData({ ...donationFormData, [name]: value });
   };
 
   const handleFileChange = (e) => {
@@ -61,7 +78,7 @@ export default function EmployeeDashboard() {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-  
+
     const uploadData = new FormData();
     uploadData.append('product', JSON.stringify({
       furnitureName: formData.furnitureName,
@@ -73,23 +90,15 @@ export default function EmployeeDashboard() {
       coverImage: formData.coverImage,
       description: formData.description
     }));
-    
+
     if (selectedFile) {
       uploadData.append('imageFile', selectedFile);
     }
-  
-    // Log FormData contents for debugging
-    console.log("FormData contents:");
-    for (let [key, value] of uploadData.entries()) {
-      console.log(key, value);
-    }
-  
+
     try {
       if (formData.id) {
-        console.log("Updating product with ID:", formData.id);
         await apiService.updateProduct(formData.id, uploadData);
       } else {
-        console.log("Creating new product");
         await apiService.createProduct(uploadData);
       }
       fetchProducts();
@@ -97,6 +106,22 @@ export default function EmployeeDashboard() {
       setSelectedFile(null);
     } catch (error) {
       console.error("Error submitting product:", error);
+    }
+  };
+
+  const handleDonationFormSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      if (donationFormData.id) {
+        await apiService.updateDonation(donationFormData.id, donationFormData);
+      } else {
+        await apiService.createDonation(donationFormData);
+      }
+      fetchDonations();
+      setDonationFormData({ id: '', name: '', pickupDateTime: '', email: '', furnitureCount: '', status: 'Pending' });
+    } catch (error) {
+      console.error("Error submitting donation:", error);
     }
   };
 
@@ -109,9 +134,23 @@ export default function EmployeeDashboard() {
     }
   };
 
+  const handleDeleteDonation = async (id) => {
+    try {
+      await apiService.deleteDonation(id);
+      fetchDonations();
+    } catch (error) {
+      console.error("Error deleting donation:", error);
+    }
+  };
+
   const handleEditProduct = (product) => {
     setFormData(product);
     setValue(0);
+  };
+
+  const handleEditDonation = (donation) => {
+    setDonationFormData(donation);
+    setValue(2);
   };
 
   return (
@@ -120,10 +159,11 @@ export default function EmployeeDashboard() {
         <Tabs value={value} onChange={handleChange} aria-label="employee dashboard tabs">
           <Tab label="Add Product" />
           <Tab label="Manage Products" />
+          <Tab label="Manage Donations" />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0} className="tab-panel">
-      {employee && <h3>Welcome, {employee.firstName}!</h3>}
+        {employee && <h3>Welcome, {employee.firstName}!</h3>}
         <form onSubmit={handleFormSubmit} className="form-container">
           <TextField
             label="Furniture Name"
@@ -268,6 +308,88 @@ export default function EmployeeDashboard() {
                         <Edit />
                       </IconButton>
                       <IconButton onClick={() => handleDeleteProduct(product.id)}>
+                        <Delete />
+                      </IconButton>
+                    </Box>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </Box>
+      </TabPanel>
+      <TabPanel value={value} index={2} className="tab-panel">
+        <form onSubmit={handleDonationFormSubmit} className="form-container">
+          <TextField
+            label="Donor Name"
+            name="name"
+            value={donationFormData.name}
+            onChange={handleDonationInputChange}
+            fullWidth
+            margin="normal"
+            className="text-field"
+          />
+          <TextField
+            label="Email"
+            name="email"
+            value={donationFormData.email}
+            onChange={handleDonationInputChange}
+            fullWidth
+            margin="normal"
+            className="text-field"
+          />
+          <TextField
+            label="Furniture Count"
+            name="furnitureCount"
+            value={donationFormData.furnitureCount}
+            onChange={handleDonationInputChange}
+            fullWidth
+            margin="normal"
+            className="text-field"
+          />
+          <FormControl fullWidth margin="normal" className="text-field">
+            <InputLabel>Status</InputLabel>
+            <Select
+              label="Status"
+              name="status"
+              value={donationFormData.status}
+              onChange={handleDonationInputChange}
+            >
+              <MenuItem value="pending">Pending</MenuItem>
+              <MenuItem value="received">Received</MenuItem>
+              <MenuItem value="processed">Processed</MenuItem>
+            </Select>
+          </FormControl>
+          <Button type="submit" variant="contained" color="primary" className="button">
+            {donationFormData.id ? 'Update Donation' : 'Add Donation'}
+          </Button>
+        </form>
+        <Box className="table-container">
+          <Table className="table">
+            <TableHead>
+              <TableRow className="table-head">
+                <TableCell className="table-head-cell">Donor Name</TableCell>
+                <TableCell className="table-head-cell">Donation Date</TableCell>
+                <TableCell className="table-head-cell">Email</TableCell>
+                <TableCell className="table-head-cell">Furniture Count</TableCell>
+                <TableCell className="table-head-cell">Status</TableCell>
+                <TableCell className="table-head-cell">Actions</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {donations.map((donation) => (
+                <TableRow key={donation.id} className="table-row">
+                  <TableCell className="table-cell">{donation.name}</TableCell>
+                  <TableCell className="table-cell">{donation.pickupDateTime}</TableCell>
+                  <TableCell className="table-cell">{donation.email}</TableCell>
+                  <TableCell className="table-cell">{donation.furnitureCount}</TableCell>
+                  <TableCell className="table-cell">{donation.status}</TableCell>
+                  <TableCell className="table-cell">
+                    <Box className="action-buttons">
+                      <IconButton onClick={() => handleEditDonation(donation)}>
+                        <Edit />
+                      </IconButton>
+                      <IconButton onClick={() => handleDeleteDonation(donation.id)}>
                         <Delete />
                       </IconButton>
                     </Box>

@@ -15,8 +15,8 @@ const Home = () => {
         <div className="text">
           <h1 className="home-title">Welcome to RestoFurn</h1>
           <p className="home-subtitle">
-            Your best choice for sustainable furniture solutions. At RestoFurn, we believe in giving furniture a second chance. 
-            Our mission is to reduce waste and support local communities by recycling and refurbishing furniture that would otherwise 
+            Your best choice for sustainable furniture solutions. At RestoFurn, we believe in giving furniture a second chance.
+            Our mission is to reduce waste and support local communities by recycling and refurbishing furniture that would otherwise
             end up in landfills. By choosing us, you are contributing to a more sustainable future and helping families in need.
           </p>
         </div>
@@ -34,7 +34,7 @@ const Home = () => {
             Donate used furniture from your home or contribute new items for charity. Your donations help support our mission and provide quality furniture to those in need.
           </p>
         </div>
-        
+
         <div className="working-box">
           <h3 className="sub-head">2. Pickup</h3>
           <LocalShippingIcon size={70} />
@@ -61,15 +61,6 @@ const Home = () => {
       </div>
 
       <div className="home-content">
-        <div className="testimonial-container">
-          <h2>What Our Customers Say</h2>
-          <p className="testimonial">
-            "Great service and high-quality furniture! I was impressed by how easy the process was and the impact my donation made." - Jane Doe
-          </p>
-          <p className="testimonial">
-            "I love how RestoFurn gives my old furniture a new home while supporting a great cause. The refurbished pieces are beautiful and affordable." - John Smith
-          </p>
-        </div>
 
         <div className="recycling-benefits">
           <h2 className="recycling-title">Why Recycle Furniture?</h2>
@@ -111,6 +102,16 @@ const Home = () => {
           </p>
           <p>
             Visit our website or contact us to learn more about how you can get involved and contribute to our efforts.
+          </p>
+        </div>
+
+        <div className="testimonial-container">
+          <h2>What Our Customers Say</h2>
+          <p className="testimonial">
+            "Great service and high-quality furniture! I was impressed by how easy the process was and the impact my donation made." - Jane Doe
+          </p>
+          <p className="testimonial">
+            "I love how RestoFurn gives my old furniture a new home while supporting a great cause. The refurbished pieces are beautiful and affordable." - John Smith
           </p>
         </div>
       </div>

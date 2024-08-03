@@ -1,24 +1,23 @@
-import * as React from 'react';
+import 'react-native-gesture-handler';
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import HomeScreen from './screens/HomeScreen';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import LoginScreen from './screens/LoginScreen';
-import ProductListScreen from './screens/ProductListScreen';
-import ProductDetailScreen from './screens/ProductDetailScreen';
+import DashboardScreen from './screens/DashboardScreen';
 import ProductFormScreen from './screens/ProductFormScreen';
+import ProfileScreen from './screens/ProfileScreen'; // Assuming you have a Profile screen
 
-const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
 
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
-        <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="ProductList" component={ProductListScreen} />
-        <Stack.Screen name="ProductDetail" component={ProductDetailScreen} />
-        <Stack.Screen name="ProductForm" component={ProductFormScreen} />
-      </Stack.Navigator>
+      <Tab.Navigator initialRouteName="Login">
+        <Tab.Screen name="Login" component={LoginScreen} />
+        <Tab.Screen name="Dashboard" component={DashboardScreen} />
+        <Tab.Screen name="ProductForm" component={ProductFormScreen} />
+        <Tab.Screen name="Profile" component={ProfileScreen} />
+      </Tab.Navigator>
     </NavigationContainer>
   );
 };
